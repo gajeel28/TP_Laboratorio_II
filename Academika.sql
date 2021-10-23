@@ -610,3 +610,5 @@ INSERT INTO DOCENTExTURNO (id_docente, id_turno, id_cargo) values(1,1,1)
 
 --DOCENTESxMATERIA
 INSERT INTO DOCENTESxMATERIA(id_docente, id_materia_curso) values (1,1)
+
+-- SCRIPT FUNCIONANDO --
