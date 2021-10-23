@@ -1,1508 +1,612 @@
-CREATE DATABASE [Academika]
+CREATE DATABASE Academika
 GO
-USE [Academika]
-GO
-/****** Object:  Table [dbo].[ALUMNOS]    Script Date: 23/10/2021 19:06:31 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[ALUMNOS](
-	[legajo] [int] IDENTITY(1,1) NOT NULL,
-	[nombre] [varchar](50) NOT NULL,
-	[apellido] [varchar](50) NOT NULL,
-	[genero] [varchar](50) NULL,
-	[id_tipo_doc] [int] NULL,
-	[num_doc] [int] NULL,
-	[calle] [varchar](50) NULL,
-	[numero] [int] NULL,
-	[id_situac_habit] [int] NULL,
-	[fecha_nac] [date] NULL,
-	[id_estado_civil] [int] NULL,
-	[trabaja] [bit] NOT NULL,
-	[id_tipo_trab] [int] NULL,
-	[id_barrio] [int] NULL,
-	[email] [varchar](50) NULL,
-	[telefono] [int] NULL,
- CONSTRAINT [pk_alumnos] PRIMARY KEY CLUSTERED 
-(
-	[legajo] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[CURSOS]    Script Date: 23/10/2021 19:06:31 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[CURSOS](
-	[id_curso] [int] IDENTITY(1,1) NOT NULL,
-	[curso] [varchar](30) NOT NULL,
- CONSTRAINT [pk_cursos] PRIMARY KEY CLUSTERED 
-(
-	[id_curso] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[CARRERAS]    Script Date: 23/10/2021 19:06:31 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[CARRERAS](
-	[id_carrera] [int] IDENTITY(1,1) NOT NULL,
-	[carrera] [varchar](100) NOT NULL,
- CONSTRAINT [pk_carreras] PRIMARY KEY CLUSTERED 
-(
-	[id_carrera] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[CONDICIONES]    Script Date: 23/10/2021 19:06:31 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[CONDICIONES](
-	[id_condicion] [int] IDENTITY(1,1) NOT NULL,
-	[condicion] [varchar](30) NOT NULL,
- CONSTRAINT [pk_condiciones] PRIMARY KEY CLUSTERED 
-(
-	[id_condicion] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[MATERIAS]    Script Date: 23/10/2021 19:06:31 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[MATERIAS](
-	[id_materia] [int] IDENTITY(1,1) NOT NULL,
-	[materia] [varchar](100) NOT NULL,
- CONSTRAINT [pk_materias] PRIMARY KEY CLUSTERED 
-(
-	[id_materia] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[ALUMNOSxMATERIA]    Script Date: 23/10/2021 19:06:31 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[ALUMNOSxMATERIA](
-	[id_alumno_materia] [int] IDENTITY(1,1) NOT NULL,
-	[legajo] [int] NULL,
-	[id_materia] [int] NULL,
-	[id_condicion] [int] NULL,
-	[anio_cursado] [int] NULL,
- CONSTRAINT [pk_alumno_materia] PRIMARY KEY CLUSTERED 
-(
-	[id_alumno_materia] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[ALUMNOSxCARRERA]    Script Date: 23/10/2021 19:06:31 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[ALUMNOSxCARRERA](
-	[id_carrera_alumno] [int] IDENTITY(1,1) NOT NULL,
-	[legajo] [int] NULL,
-	[id_carrera] [int] NULL,
-	[anio_inscripcion] [int] NULL,
- CONSTRAINT [pk_carrera_alumno] PRIMARY KEY CLUSTERED 
-(
-	[id_carrera_alumno] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[ALUMNOSxCURSO]    Script Date: 23/10/2021 19:06:31 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[ALUMNOSxCURSO](
-	[id_alumno_curso] [int] IDENTITY(1,1) NOT NULL,
-	[legajo] [int] NULL,
-	[id_curso] [int] NULL,
- CONSTRAINT [pk_alumno_curso] PRIMARY KEY CLUSTERED 
-(
-	[id_alumno_curso] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[MATERIASxCURSO]    Script Date: 23/10/2021 19:06:31 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[MATERIASxCURSO](
-	[id_materia_curso] [int] IDENTITY(1,1) NOT NULL,
-	[id_materia] [int] NULL,
-	[id_curso] [int] NULL,
- CONSTRAINT [pk_materia_curso] PRIMARY KEY CLUSTERED 
-(
-	[id_materia_curso] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[MATERIASxCARRERA]    Script Date: 23/10/2021 19:06:31 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[MATERIASxCARRERA](
-	[id_materias_carrera] [int] IDENTITY(1,1) NOT NULL,
-	[id_carrera] [int] NULL,
-	[id_materia] [int] NULL,
- CONSTRAINT [pk_id_materias_carrera] PRIMARY KEY CLUSTERED 
-(
-	[id_materias_carrera] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  View [dbo].[vw_condiciones_alumnos]    Script Date: 23/10/2021 19:06:31 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+use Academika
 GO
 
-CREATE VIEW [dbo].[vw_condiciones_alumnos]
-AS
-SELECT a. legajo Legajo, a.nombre + ' ' + a.apellido Alumno, m.materia Materia, ca.carrera Carrera, c.curso Curso, am.anio_cursado 'Anio Cursada', ac.anio_inscripcion 'Anio Carrera', co.condicion Condicion 
-FROM ALUMNOSxMATERIA am
-INNER JOIN ALUMNOSxCARRERA ac ON ac.legajo = am.legajo 
-INNER JOIN ALUMNOSxCURSO acu ON acu.legajo = am.legajo 
-INNER JOIN MATERIASxCURSO mc ON am.id_materia = mc.id_materia AND acu.legajo = am.legajo AND acu.id_curso = mc.id_curso
-INNER JOIN MATERIASxCARRERA mca ON am.id_materia = mca.id_materia AND ac.id_carrera = mca.id_carrera
-INNER JOIN ALUMNOS a ON a.legajo = am.legajo AND a.legajo = ac.legajo
-INNER JOIN MATERIAS m ON m.id_materia = am.id_materia
-INNER JOIN CURSOS c ON mc.id_curso = c.id_curso
-INNER JOIN CARRERAS ca ON ca.id_carrera = ac.id_carrera AND ca.id_carrera = mca.id_carrera 
-INNER JOIN CONDICIONES co ON co.id_condicion = am.id_condicion
-GO
-/****** Object:  Table [dbo].[BARRIOS]    Script Date: 23/10/2021 19:06:31 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[BARRIOS](
-	[id_barrio] [int] IDENTITY(1,1) NOT NULL,
-	[nom_barrio] [varchar](50) NOT NULL,
-	[id_localidad] [int] NULL,
- CONSTRAINT [pk_barrio] PRIMARY KEY CLUSTERED 
-(
-	[id_barrio] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[CARGOS]    Script Date: 23/10/2021 19:06:31 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[CARGOS](
-	[id_cargo] [int] IDENTITY(1,1) NOT NULL,
-	[cargo] [varchar](50) NOT NULL,
- CONSTRAINT [pk_cargos] PRIMARY KEY CLUSTERED 
-(
-	[id_cargo] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[DOCENTES]    Script Date: 23/10/2021 19:06:31 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[DOCENTES](
-	[id_docente] [int] IDENTITY(1,1) NOT NULL,
-	[nombre] [varchar](50) NOT NULL,
-	[apellido] [varchar](50) NOT NULL,
-	[email] [nvarchar](60) NULL,
-	[telefono] [varchar](30) NULL,
- CONSTRAINT [pk_docentes] PRIMARY KEY CLUSTERED 
-(
-	[id_docente] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[DOCENTESxMATERIA]    Script Date: 23/10/2021 19:06:31 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[DOCENTESxMATERIA](
-	[id_docente_materia] [int] IDENTITY(1,1) NOT NULL,
-	[id_docente] [int] NULL,
-	[id_materia_curso] [int] NULL,
- CONSTRAINT [pk_docente_materia] PRIMARY KEY CLUSTERED 
-(
-	[id_docente_materia] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[DOCENTExTURNO]    Script Date: 23/10/2021 19:06:31 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[DOCENTExTURNO](
-	[id_docente_turno] [int] IDENTITY(1,1) NOT NULL,
-	[id_docente] [int] NULL,
-	[id_turno] [int] NULL,
-	[id_cargo] [int] NULL,
- CONSTRAINT [pk_docente_turno] PRIMARY KEY CLUSTERED 
-(
-	[id_docente_turno] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[ESTADOS_CIVIL]    Script Date: 23/10/2021 19:06:31 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[ESTADOS_CIVIL](
-	[id_estado_civil] [int] IDENTITY(1,1) NOT NULL,
-	[estado_civil] [varchar](50) NOT NULL,
- CONSTRAINT [pk_estado_civil] PRIMARY KEY CLUSTERED 
-(
-	[id_estado_civil] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[EXAMENES]    Script Date: 23/10/2021 19:06:31 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[EXAMENES](
-	[id_examen] [int] IDENTITY(1,1) NOT NULL,
-	[id_tipo_examen] [int] NULL,
-	[fecha] [datetime] NULL,
-	[id_turno] [int] NULL,
-	[id_materia] [int] NULL,
-	[legajo] [int] NULL,
-	[nota] [int] NULL,
- CONSTRAINT [pk_examen] PRIMARY KEY CLUSTERED 
-(
-	[id_examen] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[LOCALIDADES]    Script Date: 23/10/2021 19:06:31 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[LOCALIDADES](
-	[id_localidad] [int] IDENTITY(1,1) NOT NULL,
-	[nom_localidad] [varchar](50) NOT NULL,
-	[id_provincia] [int] NULL,
- CONSTRAINT [pk_localidad] PRIMARY KEY CLUSTERED 
-(
-	[id_localidad] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[PAISES]    Script Date: 23/10/2021 19:06:31 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[PAISES](
-	[id_pais] [int] IDENTITY(1,1) NOT NULL,
-	[nom_pais] [varchar](50) NOT NULL,
- CONSTRAINT [pk_pais] PRIMARY KEY CLUSTERED 
-(
-	[id_pais] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[PROVINCIAS]    Script Date: 23/10/2021 19:06:31 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[PROVINCIAS](
-	[id_provincia] [int] IDENTITY(1,1) NOT NULL,
-	[nom_provincia] [varchar](50) NOT NULL,
-	[id_pais] [int] NULL,
- CONSTRAINT [pk_provincia] PRIMARY KEY CLUSTERED 
-(
-	[id_provincia] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[SITUACIONES_HABIT]    Script Date: 23/10/2021 19:06:31 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[SITUACIONES_HABIT](
-	[id_situac_habit] [int] IDENTITY(1,1) NOT NULL,
-	[situac_habit] [varchar](50) NULL,
- CONSTRAINT [pk_id_situac_habit] PRIMARY KEY CLUSTERED 
-(
-	[id_situac_habit] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[TIPOS_DOC]    Script Date: 23/10/2021 19:06:31 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[TIPOS_DOC](
-	[id_tipo_doc] [int] IDENTITY(1,1) NOT NULL,
-	[tipo_doc] [varchar](50) NOT NULL,
- CONSTRAINT [pk_tipos_doc] PRIMARY KEY CLUSTERED 
-(
-	[id_tipo_doc] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[TIPOS_EXAMEN]    Script Date: 23/10/2021 19:06:31 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[TIPOS_EXAMEN](
-	[id_tipo_examen] [int] IDENTITY(1,1) NOT NULL,
-	[tipo_examen] [varchar](30) NULL,
- CONSTRAINT [pk_tipos_examen] PRIMARY KEY CLUSTERED 
-(
-	[id_tipo_examen] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[TIPOS_TRABAJO]    Script Date: 23/10/2021 19:06:31 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[TIPOS_TRABAJO](
-	[id_tipo_trab] [int] IDENTITY(1,1) NOT NULL,
-	[tipo_trabajo] [varchar](50) NOT NULL,
- CONSTRAINT [pk_tipos_trab] PRIMARY KEY CLUSTERED 
-(
-	[id_tipo_trab] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[TURNOS_EXAMEN]    Script Date: 23/10/2021 19:06:31 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[TURNOS_EXAMEN](
-	[id_turno] [int] IDENTITY(1,1) NOT NULL,
-	[turno] [varchar](30) NOT NULL,
-	[anio_lectivo] [int] NULL,
- CONSTRAINT [pk_turnos_examen] PRIMARY KEY CLUSTERED 
-(
-	[id_turno] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-SET IDENTITY_INSERT [dbo].[ALUMNOS] ON 
-GO
-INSERT [dbo].[ALUMNOS] ([legajo], [nombre], [apellido], [genero], [id_tipo_doc], [num_doc], [calle], [numero], [id_situac_habit], [fecha_nac], [id_estado_civil], [trabaja], [id_tipo_trab], [id_barrio], [email], [telefono]) VALUES (1, N'Lucio', N'Alfonso', N'NS/NC', 1, 30000, N'avenida siempre viva', 123, 1, CAST(N'1990-10-10' AS Date), 1, 1, 1, 1, N'lucio@utn.edu.ar', 3512)
-GO
-INSERT [dbo].[ALUMNOS] ([legajo], [nombre], [apellido], [genero], [id_tipo_doc], [num_doc], [calle], [numero], [id_situac_habit], [fecha_nac], [id_estado_civil], [trabaja], [id_tipo_trab], [id_barrio], [email], [telefono]) VALUES (2, N'Gaston', N'Sosa', N'NS/NC', 1, 30001, N'avenida siempre viva', 1234, 1, CAST(N'1996-10-10' AS Date), 1, 1, 1, 1, N'gaston@utn.edu.ar', 3512)
-GO
-INSERT [dbo].[ALUMNOS] ([legajo], [nombre], [apellido], [genero], [id_tipo_doc], [num_doc], [calle], [numero], [id_situac_habit], [fecha_nac], [id_estado_civil], [trabaja], [id_tipo_trab], [id_barrio], [email], [telefono]) VALUES (3, N'Ciro', N'Gianpiari', N'NS/NC', 1, 30003, N'avenida siempre viva', 1235, 1, CAST(N'1994-10-10' AS Date), 1, 1, 1, 1, N'ciro@utn.edu.ar', 3512)
-GO
-INSERT [dbo].[ALUMNOS] ([legajo], [nombre], [apellido], [genero], [id_tipo_doc], [num_doc], [calle], [numero], [id_situac_habit], [fecha_nac], [id_estado_civil], [trabaja], [id_tipo_trab], [id_barrio], [email], [telefono]) VALUES (4, N'Ciro', N'Gianpiari', N'NS/NC', 1, 30002, N'avenida siempre viva', 1236, 1, CAST(N'1991-10-10' AS Date), 1, 1, 1, 1, N'ciro@utn.edu.ar', 3512)
-GO
-INSERT [dbo].[ALUMNOS] ([legajo], [nombre], [apellido], [genero], [id_tipo_doc], [num_doc], [calle], [numero], [id_situac_habit], [fecha_nac], [id_estado_civil], [trabaja], [id_tipo_trab], [id_barrio], [email], [telefono]) VALUES (5, N'Javier', N'Yonose', N'NS/NC', 1, 30002, N'avenida siempre viva', 1237, 1, CAST(N'1992-10-10' AS Date), 1, 1, 1, 1, N'javier@utn.edu.ar', 3512)
-GO
-SET IDENTITY_INSERT [dbo].[ALUMNOS] OFF
-GO
-SET IDENTITY_INSERT [dbo].[ALUMNOSxCARRERA] ON 
-GO
-INSERT [dbo].[ALUMNOSxCARRERA] ([id_carrera_alumno], [legajo], [id_carrera], [anio_inscripcion]) VALUES (1, 1, 1, 2020)
-GO
-INSERT [dbo].[ALUMNOSxCARRERA] ([id_carrera_alumno], [legajo], [id_carrera], [anio_inscripcion]) VALUES (2, 2, 1, 2020)
-GO
-INSERT [dbo].[ALUMNOSxCARRERA] ([id_carrera_alumno], [legajo], [id_carrera], [anio_inscripcion]) VALUES (3, 3, 1, 2020)
-GO
-INSERT [dbo].[ALUMNOSxCARRERA] ([id_carrera_alumno], [legajo], [id_carrera], [anio_inscripcion]) VALUES (4, 4, 1, 2020)
-GO
-INSERT [dbo].[ALUMNOSxCARRERA] ([id_carrera_alumno], [legajo], [id_carrera], [anio_inscripcion]) VALUES (5, 5, 1, 2020)
-GO
-SET IDENTITY_INSERT [dbo].[ALUMNOSxCARRERA] OFF
-GO
-SET IDENTITY_INSERT [dbo].[ALUMNOSxCURSO] ON 
-GO
-INSERT [dbo].[ALUMNOSxCURSO] ([id_alumno_curso], [legajo], [id_curso]) VALUES (1, 1, 1)
-GO
-INSERT [dbo].[ALUMNOSxCURSO] ([id_alumno_curso], [legajo], [id_curso]) VALUES (2, 5, 1)
-GO
-INSERT [dbo].[ALUMNOSxCURSO] ([id_alumno_curso], [legajo], [id_curso]) VALUES (3, 2, 1)
-GO
-INSERT [dbo].[ALUMNOSxCURSO] ([id_alumno_curso], [legajo], [id_curso]) VALUES (4, 3, 1)
-GO
-INSERT [dbo].[ALUMNOSxCURSO] ([id_alumno_curso], [legajo], [id_curso]) VALUES (5, 4, 1)
-GO
-SET IDENTITY_INSERT [dbo].[ALUMNOSxCURSO] OFF
-GO
-SET IDENTITY_INSERT [dbo].[ALUMNOSxMATERIA] ON 
-GO
-INSERT [dbo].[ALUMNOSxMATERIA] ([id_alumno_materia], [legajo], [id_materia], [id_condicion], [anio_cursado]) VALUES (1, 1, 1, 1, 2021)
-GO
-INSERT [dbo].[ALUMNOSxMATERIA] ([id_alumno_materia], [legajo], [id_materia], [id_condicion], [anio_cursado]) VALUES (2, 2, 1, 1, 2021)
-GO
-INSERT [dbo].[ALUMNOSxMATERIA] ([id_alumno_materia], [legajo], [id_materia], [id_condicion], [anio_cursado]) VALUES (3, 3, 1, 1, 2021)
-GO
-INSERT [dbo].[ALUMNOSxMATERIA] ([id_alumno_materia], [legajo], [id_materia], [id_condicion], [anio_cursado]) VALUES (4, 4, 1, 1, 2021)
-GO
-INSERT [dbo].[ALUMNOSxMATERIA] ([id_alumno_materia], [legajo], [id_materia], [id_condicion], [anio_cursado]) VALUES (5, 5, 1, 3, 2021)
-GO
-SET IDENTITY_INSERT [dbo].[ALUMNOSxMATERIA] OFF
-GO
-SET IDENTITY_INSERT [dbo].[BARRIOS] ON 
-GO
-INSERT [dbo].[BARRIOS] ([id_barrio], [nom_barrio], [id_localidad]) VALUES (1, N'CENTRO', 1)
-GO
-INSERT [dbo].[BARRIOS] ([id_barrio], [nom_barrio], [id_localidad]) VALUES (2, N'ALTO ALBERDI', 1)
-GO
-INSERT [dbo].[BARRIOS] ([id_barrio], [nom_barrio], [id_localidad]) VALUES (3, N'OBSERVATORIO', 1)
-GO
-INSERT [dbo].[BARRIOS] ([id_barrio], [nom_barrio], [id_localidad]) VALUES (4, N'JARDIN', 1)
-GO
-INSERT [dbo].[BARRIOS] ([id_barrio], [nom_barrio], [id_localidad]) VALUES (5, N'GENERAL PAZ', 1)
-GO
-INSERT [dbo].[BARRIOS] ([id_barrio], [nom_barrio], [id_localidad]) VALUES (6, N'PUEYRREDON', 1)
-GO
-INSERT [dbo].[BARRIOS] ([id_barrio], [nom_barrio], [id_localidad]) VALUES (7, N'PARQUE HORIZONTE', 1)
-GO
-INSERT [dbo].[BARRIOS] ([id_barrio], [nom_barrio], [id_localidad]) VALUES (8, N'SAN MARTIN', 1)
-GO
-INSERT [dbo].[BARRIOS] ([id_barrio], [nom_barrio], [id_localidad]) VALUES (9, N'SAN VICENTE', 1)
-GO
-INSERT [dbo].[BARRIOS] ([id_barrio], [nom_barrio], [id_localidad]) VALUES (10, N'JUNIOR', 1)
-GO
-INSERT [dbo].[BARRIOS] ([id_barrio], [nom_barrio], [id_localidad]) VALUES (11, N'MAIPU', 1)
-GO
-INSERT [dbo].[BARRIOS] ([id_barrio], [nom_barrio], [id_localidad]) VALUES (12, N'PANAMERICANO', 1)
-GO
-SET IDENTITY_INSERT [dbo].[BARRIOS] OFF
-GO
-SET IDENTITY_INSERT [dbo].[CARGOS] ON 
-GO
-INSERT [dbo].[CARGOS] ([id_cargo], [cargo]) VALUES (1, N'PRESIDENTE DE MESA')
-GO
-INSERT [dbo].[CARGOS] ([id_cargo], [cargo]) VALUES (2, N'PRIMER VOCAL')
-GO
-INSERT [dbo].[CARGOS] ([id_cargo], [cargo]) VALUES (3, N'SEGUNDO VOCAL')
-GO
-SET IDENTITY_INSERT [dbo].[CARGOS] OFF
-GO
-SET IDENTITY_INSERT [dbo].[CARRERAS] ON 
-GO
-INSERT [dbo].[CARRERAS] ([id_carrera], [carrera]) VALUES (1, N'Tecnicatura en Programaci√≥n')
-GO
-INSERT [dbo].[CARRERAS] ([id_carrera], [carrera]) VALUES (2, N'Tecnicatura en Mecatr√≥nica')
-GO
-INSERT [dbo].[CARRERAS] ([id_carrera], [carrera]) VALUES (3, N'Tecnicatura en Mantenimiento Industrial')
-GO
-SET IDENTITY_INSERT [dbo].[CARRERAS] OFF
-GO
-SET IDENTITY_INSERT [dbo].[CONDICIONES] ON 
-GO
-INSERT [dbo].[CONDICIONES] ([id_condicion], [condicion]) VALUES (1, N'REGULAR')
-GO
-INSERT [dbo].[CONDICIONES] ([id_condicion], [condicion]) VALUES (2, N'PROMOCIONAL')
-GO
-INSERT [dbo].[CONDICIONES] ([id_condicion], [condicion]) VALUES (3, N'LIBRE')
-GO
-SET IDENTITY_INSERT [dbo].[CONDICIONES] OFF
-GO
-SET IDENTITY_INSERT [dbo].[CURSOS] ON 
-GO
-INSERT [dbo].[CURSOS] ([id_curso], [curso]) VALUES (1, N'1W1')
-GO
-INSERT [dbo].[CURSOS] ([id_curso], [curso]) VALUES (2, N'1W2')
-GO
-INSERT [dbo].[CURSOS] ([id_curso], [curso]) VALUES (3, N'1W3')
-GO
-INSERT [dbo].[CURSOS] ([id_curso], [curso]) VALUES (4, N'2W1')
-GO
-INSERT [dbo].[CURSOS] ([id_curso], [curso]) VALUES (5, N'2W2')
-GO
-INSERT [dbo].[CURSOS] ([id_curso], [curso]) VALUES (6, N'2W3')
-GO
-INSERT [dbo].[CURSOS] ([id_curso], [curso]) VALUES (7, N'1X1')
-GO
-INSERT [dbo].[CURSOS] ([id_curso], [curso]) VALUES (8, N'1X2')
-GO
-INSERT [dbo].[CURSOS] ([id_curso], [curso]) VALUES (9, N'1X3')
-GO
-INSERT [dbo].[CURSOS] ([id_curso], [curso]) VALUES (10, N'2X1')
-GO
-INSERT [dbo].[CURSOS] ([id_curso], [curso]) VALUES (11, N'2X2')
-GO
-INSERT [dbo].[CURSOS] ([id_curso], [curso]) VALUES (12, N'2X3')
-GO
-INSERT [dbo].[CURSOS] ([id_curso], [curso]) VALUES (13, N'1T1')
-GO
-INSERT [dbo].[CURSOS] ([id_curso], [curso]) VALUES (14, N'1T2')
-GO
-INSERT [dbo].[CURSOS] ([id_curso], [curso]) VALUES (15, N'1T3')
-GO
-INSERT [dbo].[CURSOS] ([id_curso], [curso]) VALUES (16, N'2T1')
-GO
-INSERT [dbo].[CURSOS] ([id_curso], [curso]) VALUES (17, N'2T2')
-GO
-INSERT [dbo].[CURSOS] ([id_curso], [curso]) VALUES (18, N'2T3')
-GO
-SET IDENTITY_INSERT [dbo].[CURSOS] OFF
-GO
-SET IDENTITY_INSERT [dbo].[DOCENTES] ON 
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (101, N'Carlos', N'Gonz√°lez', N'carlosgonzalez@gmail.com', N'1143789800')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (102, N'Maria Belen', N'Mu√±oz', N'MariaBelenMu√±oz@gmail.com', N'1143913032')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (103, N'Camila', N'Rojas', N'CamilaRojas@gmail.com', N'1144036264')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (104, N'Juan Manuel', N'D√≠az', N'JuanManuelD√≠az@gmail.com', N'1144159496')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (105, N'Maria Florencia', N'P√©rez', N'MariaFlorenciaP√©rez@gmail.com', N'1144282728')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (106, N'Juan Ignacio', N'Soto', N'JuanIgnacioSoto@gmail.com', N'1144405960')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (107, N'Nicolas', N'Contreras', N'NicolasContreras@gmail.com', N'1144529192')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (108, N'Rocio Belen', N'Silva', N'RocioBelenSilva@gmail.com', N'1144652424')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (109, N'Florencia', N'Mart√≠nez', N'FlorenciaMart√≠nez@gmail.com', N'1144775656')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (110, N'Juan Cruz', N'Sep√∫lveda', N'JuanCruzSep√∫lveda@gmail.com', N'1144898888')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (111, N'Sofia', N'Morales', N'SofiaMorales@gmail.com', N'1145022120')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (112, N'Matias Ezequiel', N'Rodr√≠guez', N'MatiasEzequielRodr√≠guez@gmail.com', N'1145145352')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (113, N'Agustin', N'L√≥pez', N'AgustinL√≥pez@gmail.com', N'1145268584')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (114, N'Maria Sol', N'Fuentes', N'MariaSolFuentes@gmail.com', N'1145391816')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (115, N'Agustina', N'Hern√°ndez', N'AgustinaHern√°ndez@gmail.com', N'1145515048')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (116, N'Tom√°s', N'Torres', N'Tom√°sTorres@gmail.com', N'1145638280')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (117, N'Miguel Angel', N'Araya', N'MiguelAngelAraya@gmail.com', N'1145761512')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (118, N'Micaela', N'Flores', N'MicaelaFlores@gmail.com', N'1145884744')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (119, N'Juan Pablo', N'Espinoza', N'JuanPabloEspinoza@gmail.com', N'1146007976')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (120, N'Maria Victoria', N'Valenzuela', N'MariaVictoriaValenzuela@gmail.com', N'1146131208')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (121, N'Jose Luis', N'Castillo', N'JoseLuisCastillo@gmail.com', N'1146254440')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (122, N'Santiago', N'Tapia', N'SantiagoTapia@gmail.com', N'1146377672')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (123, N'Mar√≠a Eugenia', N'Reyes', N'Mar√≠aEugeniaReyes@gmail.com', N'1146500904')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (124, N'Julieta', N'Guti√©rrez', N'JulietaGuti√©rrez@gmail.com', N'1146624136')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (125, N'Camila Bel√©n', N'Castro', N'CamilaBel√©nCastro@gmail.com', N'1146747368')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (126, N'Matias Nicolas', N'Pizarro', N'MatiasNicolasPizarro@gmail.com', N'1146870600')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (127, N'Maria Jose', N'√Ålvarez', N'MariaJose√Ålvarez@gmail.com', N'1146993832')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (128, N'Facundo', N'V√°squez', N'FacundoV√°squez@gmail.com', N'1147117064')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (129, N'Franco', N'S√°nchez', N'FrancoS√°nchez@gmail.com', N'1147240296')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (130, N'Lucia', N'Fern√°ndez', N'LuciaFern√°ndez@gmail.com', N'1147363528')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (131, N'Juan Carlos', N'Ram√≠rez', N'JuanCarlosRam√≠rez@gmail.com', N'1147486760')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (132, N'Maria de los Angeles', N'Carrasco', N'MariadelosAngelesCarrasco@gmail.com', N'1147609992')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (133, N'Micaela Belen', N'G√≥mez', N'MicaelaBelenG√≥mez@gmail.com', N'1147733224')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (134, N'Federico', N'Cort√©s', N'FedericoCort√©s@gmail.com', N'1147856456')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (135, N'Gabriel Alejandro', N'Herrera', N'GabrielAlejandroHerrera@gmail.com', N'1147979688')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (136, N'Ignacio', N'N√∫√±ez', N'IgnacioN√∫√±ez@gmail.com', N'1148102920')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (137, N'Francisco', N'Jara', N'FranciscoJara@gmail.com', N'1148226152')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (138, N'Matias', N'Vergara', N'MatiasVergara@gmail.com', N'1148349384')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (139, N'Joaqu√≠n', N'Rivera', N'Joaqu√≠nRivera@gmail.com', N'1148472616')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (140, N'Lucas Ezequiel', N'Figueroa', N'LucasEzequielFigueroa@gmail.com', N'1148595848')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (141, N'Juan Jose', N'Riquelme', N'JuanJoseRiquelme@gmail.com', N'1148719080')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (142, N'Lucas', N'Garc√≠a', N'LucasGarc√≠a@gmail.com', N'1148842312')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (143, N'Franco Nicolas', N'Miranda', N'FrancoNicolasMiranda@gmail.com', N'1148965544')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (144, N'Florencia Belen', N'Bravo', N'FlorenciaBelenBravo@gmail.com', N'1149088776')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (145, N'Mar√≠a Agustina', N'Vera', N'Mar√≠aAgustinaVera@gmail.com', N'1149212008')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (146, N'Carolina', N'Molina', N'CarolinaMolina@gmail.com', N'1149335240')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (147, N'Nicolas Alejandro', N'Vega', N'NicolasAlejandroVega@gmail.com', N'1149458472')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (148, N'Micaela Soledad', N'Campos', N'MicaelaSoledadCampos@gmail.com', N'1149581704')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (149, N'Manuel', N'Sandoval', N'ManuelSandoval@gmail.com', N'1149704936')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (150, N'Juli√°n', N'Orellana', N'Juli√°nOrellana@gmail.com', N'1149828168')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (151, N'Facundo Nicolas', N'C√°rdenas', N'FacundoNicolasC√°rdenas@gmail.com', N'1149951400')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (152, N'Victoria', N'Olivares', N'VictoriaOlivares@gmail.com', N'1150074632')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (153, N'Mar√≠a Celeste', N'Alarc√≥n', N'Mar√≠aCelesteAlarc√≥n@gmail.com', N'1150197864')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (154, N'Gonzalo', N'Gallardo', N'GonzaloGallardo@gmail.com', N'1150321096')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (155, N'Sofia Belen', N'Ortiz', N'SofiaBelenOrtiz@gmail.com', N'1150444328')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (156, N'Martin', N'Garrido', N'MartinGarrido@gmail.com', N'1150567560')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (157, N'Sebasti√°n', N'Salazar', N'Sebasti√°nSalazar@gmail.com', N'1150690792')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (158, N'Antonella', N'Guzm√°n', N'AntonellaGuzm√°n@gmail.com', N'1150814024')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (159, N'Maria Laura', N'Henr√≠quez', N'MariaLauraHenr√≠quez@gmail.com', N'1150937256')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (160, N'Maximiliano', N'Saavedra', N'MaximilianoSaavedra@gmail.com', N'1151060488')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (161, N'Luis Alberto', N'Navarro', N'LuisAlbertoNavarro@gmail.com', N'1151183720')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (162, N'Maria Fernanda', N'Aguilera', N'MariaFernandaAguilera@gmail.com', N'1151306952')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (163, N'Carlos Alberto', N'Parra', N'CarlosAlbertoParra@gmail.com', N'1151430184')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (164, N'Nicolas Ezequiel', N'Romero', N'NicolasEzequielRomero@gmail.com', N'1151553416')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (165, N'Macarena', N'Aravena', N'MacarenaAravena@gmail.com', N'1151676648')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (166, N'Yamila Belen', N'Vargas', N'YamilaBelenVargas@gmail.com', N'1151799880')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (167, N'Valentina', N'V√°zquez', N'ValentinaV√°zquez@gmail.com', N'1151923112')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (168, N'Emanuel', N'C√°ceres', N'EmanuelC√°ceres@gmail.com', N'1152046344')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (169, N'Micaela Ayelen', N'Y√°√±ez', N'MicaelaAyelenY√°√±ez@gmail.com', N'1152169576')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (170, N'Ana Laura', N'Leiva', N'AnaLauraLeiva@gmail.com', N'1152292808')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (171, N'Daniel Alejandro', N'Escobar', N'DanielAlejandroEscobar@gmail.com', N'1152416040')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (172, N'Martina', N'Ruiz', N'MartinaRuiz@gmail.com', N'1152539272')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (173, N'Lucas Gabriel', N'Vald√©s', N'LucasGabrielVald√©s@gmail.com', N'1152662504')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (174, N'Maria Emilia', N'Vidal', N'MariaEmiliaVidal@gmail.com', N'1152785736')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (175, N'Franco Emanuel', N'Salinas', N'FrancoEmanuelSalinas@gmail.com', N'1152908968')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (176, N'Rodrigo', N'Zu√±iga', N'RodrigoZu√±iga@gmail.com', N'1153032200')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (177, N'Rocio', N'Pe√±a', N'RocioPe√±a@gmail.com', N'1153155432')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (178, N'Ana Paula', N'Godoy', N'AnaPaulaGodoy@gmail.com', N'1153278664')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (179, N'Brian Ezequiel', N'Lagos', N'BrianEzequielLagos@gmail.com', N'1153401896')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (180, N'Maria Soledad', N'Maldonado', N'MariaSoledadMaldonado@gmail.com', N'1153525128')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (181, N'Franco Ezequiel', N'Bustos', N'FrancoEzequielBustos@gmail.com', N'1153648360')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (182, N'Lucia Belen', N'Medina', N'LuciaBelenMedina@gmail.com', N'1153771592')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (183, N'Jonathan Ezequiel', N'Pino', N'JonathanEzequielPino@gmail.com', N'1153894824')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (184, N'Ana Belen', N'Palma', N'AnaBelenPalma@gmail.com', N'1154018056')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (185, N'Juan Gabriel', N'Moreno', N'JuanGabrielMoreno@gmail.com', N'1154141288')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (186, N'Luciano', N'Sanhueza', N'LucianoSanhueza@gmail.com', N'1154264520')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (187, N'Lucas Matias', N'Carvajal', N'LucasMatiasCarvajal@gmail.com', N'1154387752')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (188, N'Camila Soledad', N'Navarrete', N'CamilaSoledadNavarrete@gmail.com', N'1154510984')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (189, N'Lautaro', N'S√°ez', N'LautaroS√°ez@gmail.com', N'1154634216')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (190, N'Milagros', N'Alvarado', N'MilagrosAlvarado@gmail.com', N'1154757448')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (191, N'Ezequiel', N'Donoso', N'EzequielDonoso@gmail.com', N'1154880680')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (192, N'Lucas Emanuel', N'Poblete', N'LucasEmanuelPoblete@gmail.com', N'1155003912')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (193, N'Daiana Belen', N'Bustamante', N'DaianaBelenBustamante@gmail.com', N'1155127144')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (194, N'Matias Gabriel', N'Toro', N'MatiasGabrielToro@gmail.com', N'1155250376')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (195, N'Miguel Alejandro', N'Ortega', N'MiguelAlejandroOrtega@gmail.com', N'1155373608')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (196, N'Juan Martin', N'Venegas', N'JuanMartinVenegas@gmail.com', N'1155496840')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (197, N'Lucas Nahuel', N'Guerrero', N'LucasNahuelGuerrero@gmail.com', N'1155620072')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (198, N'Franco David', N'Mendoza', N'FrancoDavidMendoza@gmail.com', N'1155743304')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (199, N'Yamila Soledad', N'Far√≠as', N'YamilaSoledadFar√≠as@gmail.com', N'1155866536')
-GO
-INSERT [dbo].[DOCENTES] ([id_docente], [nombre], [apellido], [email], [telefono]) VALUES (200, N'Matias Alejandro', N'San Mart√≠n', N'MatiasAlejandroSanMart√≠n@gmail.com', N'1155989768')
-GO
-SET IDENTITY_INSERT [dbo].[DOCENTES] OFF
-GO
-SET IDENTITY_INSERT [dbo].[ESTADOS_CIVIL] ON 
-GO
-INSERT [dbo].[ESTADOS_CIVIL] ([id_estado_civil], [estado_civil]) VALUES (1, N'Casado/a')
-GO
-INSERT [dbo].[ESTADOS_CIVIL] ([id_estado_civil], [estado_civil]) VALUES (2, N'Soltero/a')
-GO
-INSERT [dbo].[ESTADOS_CIVIL] ([id_estado_civil], [estado_civil]) VALUES (3, N'Viudo/a')
-GO
-INSERT [dbo].[ESTADOS_CIVIL] ([id_estado_civil], [estado_civil]) VALUES (4, N'Divorciado/a')
-GO
-SET IDENTITY_INSERT [dbo].[ESTADOS_CIVIL] OFF
-GO
-SET IDENTITY_INSERT [dbo].[EXAMENES] ON 
-GO
-INSERT [dbo].[EXAMENES] ([id_examen], [id_tipo_examen], [fecha], [id_turno], [id_materia], [legajo], [nota]) VALUES (2, 1, CAST(N'2021-10-22T00:00:00.000' AS DateTime), 1, 1, 1, 5)
-GO
-INSERT [dbo].[EXAMENES] ([id_examen], [id_tipo_examen], [fecha], [id_turno], [id_materia], [legajo], [nota]) VALUES (3, 1, CAST(N'2021-10-22T00:00:00.000' AS DateTime), 1, 1, 2, 10)
-GO
-INSERT [dbo].[EXAMENES] ([id_examen], [id_tipo_examen], [fecha], [id_turno], [id_materia], [legajo], [nota]) VALUES (4, 1, CAST(N'2021-10-22T00:00:00.000' AS DateTime), 1, 1, 3, 9)
-GO
-INSERT [dbo].[EXAMENES] ([id_examen], [id_tipo_examen], [fecha], [id_turno], [id_materia], [legajo], [nota]) VALUES (5, 1, CAST(N'2021-10-22T00:00:00.000' AS DateTime), 1, 1, 1, 5)
-GO
-INSERT [dbo].[EXAMENES] ([id_examen], [id_tipo_examen], [fecha], [id_turno], [id_materia], [legajo], [nota]) VALUES (6, 2, CAST(N'2021-05-19T00:00:00.000' AS DateTime), 2, 1, 4, 8)
-GO
-INSERT [dbo].[EXAMENES] ([id_examen], [id_tipo_examen], [fecha], [id_turno], [id_materia], [legajo], [nota]) VALUES (7, 3, CAST(N'2021-03-01T00:00:00.000' AS DateTime), 1, 1, 2, 5)
-GO
-INSERT [dbo].[EXAMENES] ([id_examen], [id_tipo_examen], [fecha], [id_turno], [id_materia], [legajo], [nota]) VALUES (10, 4, CAST(N'2021-11-22T00:00:00.000' AS DateTime), 1, 1, 1, 3)
-GO
-INSERT [dbo].[EXAMENES] ([id_examen], [id_tipo_examen], [fecha], [id_turno], [id_materia], [legajo], [nota]) VALUES (16, 4, CAST(N'2021-11-10T00:00:00.000' AS DateTime), 1, 1, 2, 10)
-GO
-INSERT [dbo].[EXAMENES] ([id_examen], [id_tipo_examen], [fecha], [id_turno], [id_materia], [legajo], [nota]) VALUES (17, 4, CAST(N'2021-11-10T00:00:00.000' AS DateTime), 1, 1, 3, 10)
-GO
-INSERT [dbo].[EXAMENES] ([id_examen], [id_tipo_examen], [fecha], [id_turno], [id_materia], [legajo], [nota]) VALUES (18, 4, CAST(N'2021-11-10T00:00:00.000' AS DateTime), 1, 1, 4, 10)
-GO
-SET IDENTITY_INSERT [dbo].[EXAMENES] OFF
-GO
-SET IDENTITY_INSERT [dbo].[LOCALIDADES] ON 
-GO
-INSERT [dbo].[LOCALIDADES] ([id_localidad], [nom_localidad], [id_provincia]) VALUES (1, N'CORDOBA', 5)
-GO
-INSERT [dbo].[LOCALIDADES] ([id_localidad], [nom_localidad], [id_provincia]) VALUES (2, N'CARLOS PAZ', 5)
-GO
-INSERT [dbo].[LOCALIDADES] ([id_localidad], [nom_localidad], [id_provincia]) VALUES (3, N'ADELIA MARIA', 5)
-GO
-INSERT [dbo].[LOCALIDADES] ([id_localidad], [nom_localidad], [id_provincia]) VALUES (4, N'ALTA GRACIA', 5)
-GO
-INSERT [dbo].[LOCALIDADES] ([id_localidad], [nom_localidad], [id_provincia]) VALUES (5, N'AGUA DE ORO', 5)
-GO
-INSERT [dbo].[LOCALIDADES] ([id_localidad], [nom_localidad], [id_provincia]) VALUES (6, N'AGUA DEL TALA', 5)
-GO
-INSERT [dbo].[LOCALIDADES] ([id_localidad], [nom_localidad], [id_provincia]) VALUES (7, N'AGUA PINTADA', 5)
-GO
-INSERT [dbo].[LOCALIDADES] ([id_localidad], [nom_localidad], [id_provincia]) VALUES (8, N'ALEJANDRO ROCA', 5)
-GO
-INSERT [dbo].[LOCALIDADES] ([id_localidad], [nom_localidad], [id_provincia]) VALUES (9, N'ARIAS', 5)
-GO
-INSERT [dbo].[LOCALIDADES] ([id_localidad], [nom_localidad], [id_provincia]) VALUES (10, N'ARROYO CABRAL', 5)
-GO
-INSERT [dbo].[LOCALIDADES] ([id_localidad], [nom_localidad], [id_provincia]) VALUES (11, N'ARROYO LA HIGUERA', 5)
-GO
-INSERT [dbo].[LOCALIDADES] ([id_localidad], [nom_localidad], [id_provincia]) VALUES (12, N'ASCOCHINGA', 5)
-GO
-INSERT [dbo].[LOCALIDADES] ([id_localidad], [nom_localidad], [id_provincia]) VALUES (13, N'BAJO DE FERNANDEZ', 5)
-GO
-INSERT [dbo].[LOCALIDADES] ([id_localidad], [nom_localidad], [id_provincia]) VALUES (14, N'BAJO DEL CARMEN', 5)
-GO
-INSERT [dbo].[LOCALIDADES] ([id_localidad], [nom_localidad], [id_provincia]) VALUES (15, N'BAJO GRANDE', 5)
-GO
-INSERT [dbo].[LOCALIDADES] ([id_localidad], [nom_localidad], [id_provincia]) VALUES (16, N'BAJO HONDO', 5)
-GO
-INSERT [dbo].[LOCALIDADES] ([id_localidad], [nom_localidad], [id_provincia]) VALUES (17, N'BAJO LINDO', 5)
-GO
-INSERT [dbo].[LOCALIDADES] ([id_localidad], [nom_localidad], [id_provincia]) VALUES (18, N'BARRIO DEAN FUNES', 5)
-GO
-INSERT [dbo].[LOCALIDADES] ([id_localidad], [nom_localidad], [id_provincia]) VALUES (19, N'BARRIO LA FERIA', 5)
-GO
-INSERT [dbo].[LOCALIDADES] ([id_localidad], [nom_localidad], [id_provincia]) VALUES (20, N'BULNES', 5)
-GO
-INSERT [dbo].[LOCALIDADES] ([id_localidad], [nom_localidad], [id_provincia]) VALUES (21, N'CAJON DEL RIO', 5)
-GO
-INSERT [dbo].[LOCALIDADES] ([id_localidad], [nom_localidad], [id_provincia]) VALUES (22, N'CALASUYA', 5)
-GO
-INSERT [dbo].[LOCALIDADES] ([id_localidad], [nom_localidad], [id_provincia]) VALUES (23, N'CAMPO BANDILLO', 5)
-GO
-INSERT [dbo].[LOCALIDADES] ([id_localidad], [nom_localidad], [id_provincia]) VALUES (24, N'CAMPO LOS ZORROS', 5)
-GO
-INSERT [dbo].[LOCALIDADES] ([id_localidad], [nom_localidad], [id_provincia]) VALUES (25, N'CANDELARIA SUR', 5)
-GO
-INSERT [dbo].[LOCALIDADES] ([id_localidad], [nom_localidad], [id_provincia]) VALUES (26, N'CAPILLA DE SITON', 5)
-GO
-INSERT [dbo].[LOCALIDADES] ([id_localidad], [nom_localidad], [id_provincia]) VALUES (27, N'CAPILLA LA ESPERANZA', 5)
-GO
-INSERT [dbo].[LOCALIDADES] ([id_localidad], [nom_localidad], [id_provincia]) VALUES (28, N'CASAS VEJAS', 5)
-GO
-INSERT [dbo].[LOCALIDADES] ([id_localidad], [nom_localidad], [id_provincia]) VALUES (29, N'CASEROS ESTE', 5)
-GO
-INSERT [dbo].[LOCALIDADES] ([id_localidad], [nom_localidad], [id_provincia]) VALUES (30, N'CA√ëADA DE LUQUE', 5)
-GO
-INSERT [dbo].[LOCALIDADES] ([id_localidad], [nom_localidad], [id_provincia]) VALUES (31, N'CA√ëADA DEL TALA', 5)
-GO
-INSERT [dbo].[LOCALIDADES] ([id_localidad], [nom_localidad], [id_provincia]) VALUES (32, N'CA√ëADA VERDE', 5)
-GO
-INSERT [dbo].[LOCALIDADES] ([id_localidad], [nom_localidad], [id_provincia]) VALUES (33, N'CERRO PELADO', 5)
-GO
-INSERT [dbo].[LOCALIDADES] ([id_localidad], [nom_localidad], [id_provincia]) VALUES (34, N'CHARACATO', 5)
-GO
-INSERT [dbo].[LOCALIDADES] ([id_localidad], [nom_localidad], [id_provincia]) VALUES (35, N'CHA√ëARIACO', 5)
-GO
-INSERT [dbo].[LOCALIDADES] ([id_localidad], [nom_localidad], [id_provincia]) VALUES (36, N'CHIPITIN', 5)
-GO
-INSERT [dbo].[LOCALIDADES] ([id_localidad], [nom_localidad], [id_provincia]) VALUES (37, N'CHUA', 5)
-GO
-INSERT [dbo].[LOCALIDADES] ([id_localidad], [nom_localidad], [id_provincia]) VALUES (38, N'CHURQUI CA√ëADA', 5)
-GO
-INSERT [dbo].[LOCALIDADES] ([id_localidad], [nom_localidad], [id_provincia]) VALUES (39, N'COLAZO', 5)
-GO
-SET IDENTITY_INSERT [dbo].[LOCALIDADES] OFF
-GO
-SET IDENTITY_INSERT [dbo].[MATERIAS] ON 
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (1, N'PROGRAMACION I')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (2, N'SISTEMAS DE PROCESAMIENTO DE DATOS')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (3, N'MATEMATICA')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (4, N'INGLES I')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (5, N'LABORATORIO DE COMPUTACION I')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (6, N'PROGRAMACION II')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (7, N'ARQUITECTURA Y SISTEMAS OPERATIVOSI')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (8, N'ESTADISTICA')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (9, N'INGLES II')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (10, N'LABORATORIO DE COMPUTACION II')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (11, N'METODOLOGIA DE LA INVESTIGACION')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (12, N'PROGRAMACION III')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (13, N'ORGANIZACION CONTABLE DE LA EMPRESA')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (14, N'ORGANIZACION EMPRESARIAL')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (15, N'ELEMENTOS DE INVESTIGACION OPERATIVA')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (16, N'LABORATORIO DE COMPUTACION III')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (17, N'METODOLOGIA DE SISTEMAS I')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (18, N'DISE√ëO Y ADMINISTRACION DE BASES DE DATOS')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (19, N'LEGISLACION')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (20, N'LABORATORIO DE COMPUTACION IV')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (21, N'PRACTICA PROFESIONAL - TUP')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (22, N'MECATRONICA I')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (23, N'FISICA')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (24, N'MATEMATICA')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (25, N'INGLES')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (26, N'HERRAMIENTAS INFORMATICAS')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (27, N'SISTEMAS CAD')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (28, N'MATERIALES')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (29, N'ELECTROTECNIA I')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (30, N'SISTEMAS DIGITALES')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (31, N'MECATRONICA II')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (32, N'MECANICA I')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (33, N'MANTENIMIENTO INDUSTRIAL')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (34, N'ELECTRONICA')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (35, N'ELECTROTECNIA II')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (36, N'MECANICA II')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (37, N'TECNOLOGIA DE LA FABRICACION')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (38, N'AUTOMACION INDUSTRIAL')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (39, N'GESTION DE LA CALIDAD Y METROLOGIA')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (40, N'PASANTIA ENTES OFICIALES O EMPRESAS')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (41, N'SEMINARIOS')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (42, N'MANTENIMIENTO INDUSTRIAL I')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (43, N'ELECTROTECNIA I')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (44, N'MATEMATICA')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (45, N'QUIMICA')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (46, N'RELACIONES INDUSTRIALES')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (47, N'INFORMATICA I')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (48, N'MECANICA II')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (49, N'SISTEMA DE REPRESENTACION')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (50, N'CONOCIMIENTOS DE LOS MATERIALES')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (51, N'NEUMATICA E HIDRAULICA')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (52, N'MANTENIMIENTO INDUSTRIAL II')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (53, N'ELEMENTOS DE MAQUINAS')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (54, N'TECNOLOGIA DE FRIO Y CALOR')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (55, N'INSTALACIONES Y MAQUINAS ELECTRICAS')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (56, N'INFORMATICA II')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (57, N'ELEMENTOS DE AUTOMATICACION')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (58, N'INGLES')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (59, N'SEGURIDAD HIGIENE Y PROTECCION AMBIENTAL')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (60, N'COSTOS Y CONTROL DE GESTION')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (61, N'ASEGURAMIENTO DE LA CALIDAD')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (62, N'PRACTICA PROFESIONAL - TUMI')
-GO
-INSERT [dbo].[MATERIAS] ([id_materia], [materia]) VALUES (63, N'PASANTIA - TUMI')
-GO
-SET IDENTITY_INSERT [dbo].[MATERIAS] OFF
-GO
-SET IDENTITY_INSERT [dbo].[MATERIASxCARRERA] ON 
-GO
-INSERT [dbo].[MATERIASxCARRERA] ([id_materias_carrera], [id_carrera], [id_materia]) VALUES (1, 1, 1)
-GO
-INSERT [dbo].[MATERIASxCARRERA] ([id_materias_carrera], [id_carrera], [id_materia]) VALUES (2, 1, 2)
-GO
-INSERT [dbo].[MATERIASxCARRERA] ([id_materias_carrera], [id_carrera], [id_materia]) VALUES (3, 1, 3)
-GO
-INSERT [dbo].[MATERIASxCARRERA] ([id_materias_carrera], [id_carrera], [id_materia]) VALUES (16, 1, 4)
-GO
-INSERT [dbo].[MATERIASxCARRERA] ([id_materias_carrera], [id_carrera], [id_materia]) VALUES (17, 1, 5)
-GO
-INSERT [dbo].[MATERIASxCARRERA] ([id_materias_carrera], [id_carrera], [id_materia]) VALUES (18, 1, 6)
-GO
-INSERT [dbo].[MATERIASxCARRERA] ([id_materias_carrera], [id_carrera], [id_materia]) VALUES (19, 1, 7)
-GO
-INSERT [dbo].[MATERIASxCARRERA] ([id_materias_carrera], [id_carrera], [id_materia]) VALUES (20, 1, 8)
-GO
-INSERT [dbo].[MATERIASxCARRERA] ([id_materias_carrera], [id_carrera], [id_materia]) VALUES (21, 1, 9)
-GO
-INSERT [dbo].[MATERIASxCARRERA] ([id_materias_carrera], [id_carrera], [id_materia]) VALUES (22, 1, 10)
-GO
-SET IDENTITY_INSERT [dbo].[MATERIASxCARRERA] OFF
-GO
-SET IDENTITY_INSERT [dbo].[MATERIASxCURSO] ON 
-GO
-INSERT [dbo].[MATERIASxCURSO] ([id_materia_curso], [id_materia], [id_curso]) VALUES (1, 1, 1)
-GO
-INSERT [dbo].[MATERIASxCURSO] ([id_materia_curso], [id_materia], [id_curso]) VALUES (2, 1, 2)
-GO
-INSERT [dbo].[MATERIASxCURSO] ([id_materia_curso], [id_materia], [id_curso]) VALUES (3, 2, 1)
-GO
-INSERT [dbo].[MATERIASxCURSO] ([id_materia_curso], [id_materia], [id_curso]) VALUES (4, 2, 2)
-GO
-INSERT [dbo].[MATERIASxCURSO] ([id_materia_curso], [id_materia], [id_curso]) VALUES (5, 3, 1)
-GO
-INSERT [dbo].[MATERIASxCURSO] ([id_materia_curso], [id_materia], [id_curso]) VALUES (6, 3, 2)
-GO
-SET IDENTITY_INSERT [dbo].[MATERIASxCURSO] OFF
-GO
-SET IDENTITY_INSERT [dbo].[PROVINCIAS] ON 
-GO
-INSERT [dbo].[PROVINCIAS] ([id_provincia], [nom_provincia], [id_pais]) VALUES (1, N'BUENOS AIRES', NULL)
-GO
-INSERT [dbo].[PROVINCIAS] ([id_provincia], [nom_provincia], [id_pais]) VALUES (2, N'CATAMARCA', NULL)
-GO
-INSERT [dbo].[PROVINCIAS] ([id_provincia], [nom_provincia], [id_pais]) VALUES (3, N'CHACO', NULL)
-GO
-INSERT [dbo].[PROVINCIAS] ([id_provincia], [nom_provincia], [id_pais]) VALUES (4, N'CHUBUT', NULL)
-GO
-INSERT [dbo].[PROVINCIAS] ([id_provincia], [nom_provincia], [id_pais]) VALUES (5, N'CORDOBA', NULL)
-GO
-INSERT [dbo].[PROVINCIAS] ([id_provincia], [nom_provincia], [id_pais]) VALUES (6, N'CORRIENTES', NULL)
-GO
-INSERT [dbo].[PROVINCIAS] ([id_provincia], [nom_provincia], [id_pais]) VALUES (7, N'ENTRE RIOS', NULL)
-GO
-INSERT [dbo].[PROVINCIAS] ([id_provincia], [nom_provincia], [id_pais]) VALUES (8, N'FORMOSA', NULL)
-GO
-INSERT [dbo].[PROVINCIAS] ([id_provincia], [nom_provincia], [id_pais]) VALUES (9, N'JUJUY', NULL)
-GO
-INSERT [dbo].[PROVINCIAS] ([id_provincia], [nom_provincia], [id_pais]) VALUES (10, N'LA PAMPA', NULL)
-GO
-INSERT [dbo].[PROVINCIAS] ([id_provincia], [nom_provincia], [id_pais]) VALUES (11, N'LA RIOJA', NULL)
-GO
-INSERT [dbo].[PROVINCIAS] ([id_provincia], [nom_provincia], [id_pais]) VALUES (12, N'MENDOZA', NULL)
-GO
-INSERT [dbo].[PROVINCIAS] ([id_provincia], [nom_provincia], [id_pais]) VALUES (13, N'MISIONES', NULL)
-GO
-INSERT [dbo].[PROVINCIAS] ([id_provincia], [nom_provincia], [id_pais]) VALUES (14, N'NEUQUEN', NULL)
-GO
-INSERT [dbo].[PROVINCIAS] ([id_provincia], [nom_provincia], [id_pais]) VALUES (15, N'RIO NEGRO', NULL)
-GO
-INSERT [dbo].[PROVINCIAS] ([id_provincia], [nom_provincia], [id_pais]) VALUES (16, N'SALTA', NULL)
-GO
-INSERT [dbo].[PROVINCIAS] ([id_provincia], [nom_provincia], [id_pais]) VALUES (17, N'SAN JUAN', NULL)
-GO
-INSERT [dbo].[PROVINCIAS] ([id_provincia], [nom_provincia], [id_pais]) VALUES (18, N'SAN LUIS', NULL)
-GO
-INSERT [dbo].[PROVINCIAS] ([id_provincia], [nom_provincia], [id_pais]) VALUES (19, N'SANTA CRUZ', NULL)
-GO
-INSERT [dbo].[PROVINCIAS] ([id_provincia], [nom_provincia], [id_pais]) VALUES (20, N'SANTA FE', NULL)
-GO
-INSERT [dbo].[PROVINCIAS] ([id_provincia], [nom_provincia], [id_pais]) VALUES (21, N'SANTIAGO DEL ESTERO', NULL)
-GO
-INSERT [dbo].[PROVINCIAS] ([id_provincia], [nom_provincia], [id_pais]) VALUES (22, N'TIERRA DEL FUEGO', NULL)
-GO
-INSERT [dbo].[PROVINCIAS] ([id_provincia], [nom_provincia], [id_pais]) VALUES (23, N'TUCUMAN', NULL)
-GO
-SET IDENTITY_INSERT [dbo].[PROVINCIAS] OFF
-GO
-SET IDENTITY_INSERT [dbo].[SITUACIONES_HABIT] ON 
-GO
-INSERT [dbo].[SITUACIONES_HABIT] ([id_situac_habit], [situac_habit]) VALUES (1, N'Propietario')
-GO
-INSERT [dbo].[SITUACIONES_HABIT] ([id_situac_habit], [situac_habit]) VALUES (2, N'Alquiler fijo')
-GO
-INSERT [dbo].[SITUACIONES_HABIT] ([id_situac_habit], [situac_habit]) VALUES (3, N'Alquiler temporal')
-GO
-INSERT [dbo].[SITUACIONES_HABIT] ([id_situac_habit], [situac_habit]) VALUES (4, N'Vivienda compartida')
-GO
-SET IDENTITY_INSERT [dbo].[SITUACIONES_HABIT] OFF
-GO
-SET IDENTITY_INSERT [dbo].[TIPOS_DOC] ON 
-GO
-INSERT [dbo].[TIPOS_DOC] ([id_tipo_doc], [tipo_doc]) VALUES (1, N'DNI')
-GO
-INSERT [dbo].[TIPOS_DOC] ([id_tipo_doc], [tipo_doc]) VALUES (2, N'PASAPORTE')
-GO
-INSERT [dbo].[TIPOS_DOC] ([id_tipo_doc], [tipo_doc]) VALUES (3, N'LIBRETA CIVICA')
-GO
-INSERT [dbo].[TIPOS_DOC] ([id_tipo_doc], [tipo_doc]) VALUES (4, N'CARNET EXTRANJERO')
-GO
-INSERT [dbo].[TIPOS_DOC] ([id_tipo_doc], [tipo_doc]) VALUES (5, N'PARTIDA NACIMIENTO')
-GO
-INSERT [dbo].[TIPOS_DOC] ([id_tipo_doc], [tipo_doc]) VALUES (6, N'OTRO')
-GO
-INSERT [dbo].[TIPOS_DOC] ([id_tipo_doc], [tipo_doc]) VALUES (7, N'REG. UNICO CONTRIBUYENTE')
-GO
-INSERT [dbo].[TIPOS_DOC] ([id_tipo_doc], [tipo_doc]) VALUES (8, N'CUIT')
-GO
-INSERT [dbo].[TIPOS_DOC] ([id_tipo_doc], [tipo_doc]) VALUES (9, N'CUIL')
-GO
-SET IDENTITY_INSERT [dbo].[TIPOS_DOC] OFF
-GO
-SET IDENTITY_INSERT [dbo].[TIPOS_EXAMEN] ON 
-GO
-INSERT [dbo].[TIPOS_EXAMEN] ([id_tipo_examen], [tipo_examen]) VALUES (1, N'PRIMER PARCIAL')
-GO
-INSERT [dbo].[TIPOS_EXAMEN] ([id_tipo_examen], [tipo_examen]) VALUES (2, N'SEGUNDO PARCIAL')
-GO
-INSERT [dbo].[TIPOS_EXAMEN] ([id_tipo_examen], [tipo_examen]) VALUES (3, N'RECUPERATORIO')
-GO
-INSERT [dbo].[TIPOS_EXAMEN] ([id_tipo_examen], [tipo_examen]) VALUES (4, N'EXAMEN FINAL')
-GO
-SET IDENTITY_INSERT [dbo].[TIPOS_EXAMEN] OFF
-GO
-SET IDENTITY_INSERT [dbo].[TIPOS_TRABAJO] ON 
-GO
-INSERT [dbo].[TIPOS_TRABAJO] ([id_tipo_trab], [tipo_trabajo]) VALUES (1, N'Rel. Dependencia Full-Time')
-GO
-INSERT [dbo].[TIPOS_TRABAJO] ([id_tipo_trab], [tipo_trabajo]) VALUES (2, N'Rel. Dependencia Part-Time')
-GO
-INSERT [dbo].[TIPOS_TRABAJO] ([id_tipo_trab], [tipo_trabajo]) VALUES (3, N'Freelance')
-GO
-INSERT [dbo].[TIPOS_TRABAJO] ([id_tipo_trab], [tipo_trabajo]) VALUES (4, N'Trabajador Independiente')
-GO
-SET IDENTITY_INSERT [dbo].[TIPOS_TRABAJO] OFF
-GO
-SET IDENTITY_INSERT [dbo].[TURNOS_EXAMEN] ON 
-GO
-INSERT [dbo].[TURNOS_EXAMEN] ([id_turno], [turno], [anio_lectivo]) VALUES (1, N'PRIMER TURNO', 21)
-GO
-INSERT [dbo].[TURNOS_EXAMEN] ([id_turno], [turno], [anio_lectivo]) VALUES (2, N'SEGUNDO TURNO', 21)
-GO
-INSERT [dbo].[TURNOS_EXAMEN] ([id_turno], [turno], [anio_lectivo]) VALUES (3, N'TERCER TURNO', 21)
-GO
-INSERT [dbo].[TURNOS_EXAMEN] ([id_turno], [turno], [anio_lectivo]) VALUES (4, N'CUARTO TURNO', 21)
-GO
-INSERT [dbo].[TURNOS_EXAMEN] ([id_turno], [turno], [anio_lectivo]) VALUES (5, N'PRIMER TURNO', 20)
-GO
-INSERT [dbo].[TURNOS_EXAMEN] ([id_turno], [turno], [anio_lectivo]) VALUES (6, N'SEGUNDO TURNO', 20)
-GO
-INSERT [dbo].[TURNOS_EXAMEN] ([id_turno], [turno], [anio_lectivo]) VALUES (7, N'TERCER TURNO', 20)
-GO
-INSERT [dbo].[TURNOS_EXAMEN] ([id_turno], [turno], [anio_lectivo]) VALUES (8, N'CUARTO TURNO', 20)
-GO
-INSERT [dbo].[TURNOS_EXAMEN] ([id_turno], [turno], [anio_lectivo]) VALUES (9, N'PRIMER TURNO', 21)
-GO
-INSERT [dbo].[TURNOS_EXAMEN] ([id_turno], [turno], [anio_lectivo]) VALUES (10, N'SEGUNDO TURNO', 21)
-GO
-INSERT [dbo].[TURNOS_EXAMEN] ([id_turno], [turno], [anio_lectivo]) VALUES (11, N'TERCER TURNO', 21)
-GO
-INSERT [dbo].[TURNOS_EXAMEN] ([id_turno], [turno], [anio_lectivo]) VALUES (12, N'CUARTO TURNO', 21)
-GO
-INSERT [dbo].[TURNOS_EXAMEN] ([id_turno], [turno], [anio_lectivo]) VALUES (13, N'PRIMER TURNO', 22)
-GO
-INSERT [dbo].[TURNOS_EXAMEN] ([id_turno], [turno], [anio_lectivo]) VALUES (14, N'SEGUNDO TURNO', 22)
-GO
-INSERT [dbo].[TURNOS_EXAMEN] ([id_turno], [turno], [anio_lectivo]) VALUES (15, N'TERCER TURNO', 22)
-GO
-INSERT [dbo].[TURNOS_EXAMEN] ([id_turno], [turno], [anio_lectivo]) VALUES (16, N'CUARTO TURNO', 22)
-GO
-SET IDENTITY_INSERT [dbo].[TURNOS_EXAMEN] OFF
-GO
-ALTER TABLE [dbo].[ALUMNOS]  WITH CHECK ADD  CONSTRAINT [fk_barrio_alumno] FOREIGN KEY([id_barrio])
-REFERENCES [dbo].[BARRIOS] ([id_barrio])
-GO
-ALTER TABLE [dbo].[ALUMNOS] CHECK CONSTRAINT [fk_barrio_alumno]
-GO
-ALTER TABLE [dbo].[ALUMNOS]  WITH CHECK ADD  CONSTRAINT [fk_estado_civil_alumno] FOREIGN KEY([id_estado_civil])
-REFERENCES [dbo].[ESTADOS_CIVIL] ([id_estado_civil])
-GO
-ALTER TABLE [dbo].[ALUMNOS] CHECK CONSTRAINT [fk_estado_civil_alumno]
-GO
-ALTER TABLE [dbo].[ALUMNOS]  WITH CHECK ADD  CONSTRAINT [fk_situaciones_habit_alumno] FOREIGN KEY([id_situac_habit])
-REFERENCES [dbo].[SITUACIONES_HABIT] ([id_situac_habit])
-GO
-ALTER TABLE [dbo].[ALUMNOS] CHECK CONSTRAINT [fk_situaciones_habit_alumno]
-GO
-ALTER TABLE [dbo].[ALUMNOS]  WITH CHECK ADD  CONSTRAINT [fk_tipo_doc_alumno] FOREIGN KEY([id_tipo_doc])
-REFERENCES [dbo].[TIPOS_DOC] ([id_tipo_doc])
-GO
-ALTER TABLE [dbo].[ALUMNOS] CHECK CONSTRAINT [fk_tipo_doc_alumno]
-GO
-ALTER TABLE [dbo].[ALUMNOS]  WITH CHECK ADD  CONSTRAINT [fk_tipo_trab_alumno] FOREIGN KEY([id_tipo_trab])
-REFERENCES [dbo].[TIPOS_TRABAJO] ([id_tipo_trab])
-GO
-ALTER TABLE [dbo].[ALUMNOS] CHECK CONSTRAINT [fk_tipo_trab_alumno]
-GO
-ALTER TABLE [dbo].[ALUMNOSxCARRERA]  WITH CHECK ADD  CONSTRAINT [fk_carrera_alumnos_x_carrera] FOREIGN KEY([id_carrera])
-REFERENCES [dbo].[CARRERAS] ([id_carrera])
-GO
-ALTER TABLE [dbo].[ALUMNOSxCARRERA] CHECK CONSTRAINT [fk_carrera_alumnos_x_carrera]
-GO
-ALTER TABLE [dbo].[ALUMNOSxCARRERA]  WITH CHECK ADD  CONSTRAINT [fk_legajo_alumnos_x_carrera] FOREIGN KEY([legajo])
-REFERENCES [dbo].[ALUMNOS] ([legajo])
-GO
-ALTER TABLE [dbo].[ALUMNOSxCARRERA] CHECK CONSTRAINT [fk_legajo_alumnos_x_carrera]
-GO
-ALTER TABLE [dbo].[ALUMNOSxCURSO]  WITH CHECK ADD  CONSTRAINT [fk_curso_alumnos_x_curso] FOREIGN KEY([id_curso])
-REFERENCES [dbo].[CURSOS] ([id_curso])
-GO
-ALTER TABLE [dbo].[ALUMNOSxCURSO] CHECK CONSTRAINT [fk_curso_alumnos_x_curso]
-GO
-ALTER TABLE [dbo].[ALUMNOSxCURSO]  WITH CHECK ADD  CONSTRAINT [fk_legajo_alumnos_x_curso] FOREIGN KEY([legajo])
-REFERENCES [dbo].[ALUMNOS] ([legajo])
-GO
-ALTER TABLE [dbo].[ALUMNOSxCURSO] CHECK CONSTRAINT [fk_legajo_alumnos_x_curso]
-GO
-ALTER TABLE [dbo].[ALUMNOSxMATERIA]  WITH CHECK ADD  CONSTRAINT [fk_condicion_alumnos_x_materia] FOREIGN KEY([id_condicion])
-REFERENCES [dbo].[CONDICIONES] ([id_condicion])
-GO
-ALTER TABLE [dbo].[ALUMNOSxMATERIA] CHECK CONSTRAINT [fk_condicion_alumnos_x_materia]
-GO
-ALTER TABLE [dbo].[ALUMNOSxMATERIA]  WITH CHECK ADD  CONSTRAINT [fk_legajo_alumnos_x_materia] FOREIGN KEY([legajo])
-REFERENCES [dbo].[ALUMNOS] ([legajo])
-GO
-ALTER TABLE [dbo].[ALUMNOSxMATERIA] CHECK CONSTRAINT [fk_legajo_alumnos_x_materia]
-GO
-ALTER TABLE [dbo].[ALUMNOSxMATERIA]  WITH CHECK ADD  CONSTRAINT [fk_materia_alumnos_x_materia] FOREIGN KEY([id_materia])
-REFERENCES [dbo].[MATERIAS] ([id_materia])
-GO
-ALTER TABLE [dbo].[ALUMNOSxMATERIA] CHECK CONSTRAINT [fk_materia_alumnos_x_materia]
-GO
-ALTER TABLE [dbo].[BARRIOS]  WITH CHECK ADD  CONSTRAINT [fk_localidad_barrio] FOREIGN KEY([id_localidad])
-REFERENCES [dbo].[LOCALIDADES] ([id_localidad])
-GO
-ALTER TABLE [dbo].[BARRIOS] CHECK CONSTRAINT [fk_localidad_barrio]
-GO
-ALTER TABLE [dbo].[DOCENTESxMATERIA]  WITH CHECK ADD  CONSTRAINT [fk_docente_docentes_x_materia] FOREIGN KEY([id_docente])
-REFERENCES [dbo].[DOCENTES] ([id_docente])
-GO
-ALTER TABLE [dbo].[DOCENTESxMATERIA] CHECK CONSTRAINT [fk_docente_docentes_x_materia]
-GO
-ALTER TABLE [dbo].[DOCENTESxMATERIA]  WITH CHECK ADD  CONSTRAINT [fk_materia_curso_docentes_x_materia] FOREIGN KEY([id_materia_curso])
-REFERENCES [dbo].[MATERIASxCURSO] ([id_materia_curso])
-GO
-ALTER TABLE [dbo].[DOCENTESxMATERIA] CHECK CONSTRAINT [fk_materia_curso_docentes_x_materia]
-GO
-ALTER TABLE [dbo].[DOCENTExTURNO]  WITH CHECK ADD  CONSTRAINT [fk_cargo_docente_turno] FOREIGN KEY([id_cargo])
-REFERENCES [dbo].[CARGOS] ([id_cargo])
-GO
-ALTER TABLE [dbo].[DOCENTExTURNO] CHECK CONSTRAINT [fk_cargo_docente_turno]
-GO
-ALTER TABLE [dbo].[DOCENTExTURNO]  WITH CHECK ADD  CONSTRAINT [fk_docente_docente_turno] FOREIGN KEY([id_docente])
-REFERENCES [dbo].[DOCENTES] ([id_docente])
-GO
-ALTER TABLE [dbo].[DOCENTExTURNO] CHECK CONSTRAINT [fk_docente_docente_turno]
-GO
-ALTER TABLE [dbo].[DOCENTExTURNO]  WITH CHECK ADD  CONSTRAINT [fk_turno_docente_turno] FOREIGN KEY([id_turno])
-REFERENCES [dbo].[TURNOS_EXAMEN] ([id_turno])
-GO
-ALTER TABLE [dbo].[DOCENTExTURNO] CHECK CONSTRAINT [fk_turno_docente_turno]
-GO
-ALTER TABLE [dbo].[EXAMENES]  WITH CHECK ADD  CONSTRAINT [fk_materia_alumno_examenes] FOREIGN KEY([legajo])
-REFERENCES [dbo].[ALUMNOS] ([legajo])
-GO
-ALTER TABLE [dbo].[EXAMENES] CHECK CONSTRAINT [fk_materia_alumno_examenes]
-GO
-ALTER TABLE [dbo].[EXAMENES]  WITH CHECK ADD  CONSTRAINT [fk_materia_examentes] FOREIGN KEY([id_materia])
-REFERENCES [dbo].[MATERIAS] ([id_materia])
-GO
-ALTER TABLE [dbo].[EXAMENES] CHECK CONSTRAINT [fk_materia_examentes]
-GO
-ALTER TABLE [dbo].[EXAMENES]  WITH CHECK ADD  CONSTRAINT [fk_tipo_examen_examenes] FOREIGN KEY([id_tipo_examen])
-REFERENCES [dbo].[TIPOS_EXAMEN] ([id_tipo_examen])
-GO
-ALTER TABLE [dbo].[EXAMENES] CHECK CONSTRAINT [fk_tipo_examen_examenes]
-GO
-ALTER TABLE [dbo].[EXAMENES]  WITH CHECK ADD  CONSTRAINT [fk_turno_examenes] FOREIGN KEY([id_turno])
-REFERENCES [dbo].[TURNOS_EXAMEN] ([id_turno])
-GO
-ALTER TABLE [dbo].[EXAMENES] CHECK CONSTRAINT [fk_turno_examenes]
-GO
-ALTER TABLE [dbo].[LOCALIDADES]  WITH CHECK ADD  CONSTRAINT [fk_prov_localidad] FOREIGN KEY([id_provincia])
-REFERENCES [dbo].[PROVINCIAS] ([id_provincia])
-GO
-ALTER TABLE [dbo].[LOCALIDADES] CHECK CONSTRAINT [fk_prov_localidad]
-GO
-ALTER TABLE [dbo].[MATERIASxCARRERA]  WITH CHECK ADD  CONSTRAINT [fk_id_carrera] FOREIGN KEY([id_carrera])
-REFERENCES [dbo].[CARRERAS] ([id_carrera])
-GO
-ALTER TABLE [dbo].[MATERIASxCARRERA] CHECK CONSTRAINT [fk_id_carrera]
-GO
-ALTER TABLE [dbo].[MATERIASxCARRERA]  WITH CHECK ADD  CONSTRAINT [fk_id_materia] FOREIGN KEY([id_materia])
-REFERENCES [dbo].[MATERIAS] ([id_materia])
-GO
-ALTER TABLE [dbo].[MATERIASxCARRERA] CHECK CONSTRAINT [fk_id_materia]
-GO
-ALTER TABLE [dbo].[MATERIASxCURSO]  WITH CHECK ADD  CONSTRAINT [fk_curso_materias_x_curso] FOREIGN KEY([id_curso])
-REFERENCES [dbo].[CURSOS] ([id_curso])
-GO
-ALTER TABLE [dbo].[MATERIASxCURSO] CHECK CONSTRAINT [fk_curso_materias_x_curso]
-GO
-ALTER TABLE [dbo].[MATERIASxCURSO]  WITH CHECK ADD  CONSTRAINT [fk_materia_materias_x_curso] FOREIGN KEY([id_materia])
-REFERENCES [dbo].[MATERIAS] ([id_materia])
-GO
-ALTER TABLE [dbo].[MATERIASxCURSO] CHECK CONSTRAINT [fk_materia_materias_x_curso]
-GO
-ALTER TABLE [dbo].[PROVINCIAS]  WITH CHECK ADD  CONSTRAINT [fk_pais_provincia] FOREIGN KEY([id_pais])
-REFERENCES [dbo].[PAISES] ([id_pais])
-GO
-ALTER TABLE [dbo].[PROVINCIAS] CHECK CONSTRAINT [fk_pais_provincia]
-GO
-/****** Object:  StoredProcedure [dbo].[SP_ALUMNOS_SIN_APROBADAS]    Script Date: 23/10/2021 19:06:32 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE PROC [dbo].[SP_ALUMNOS_SIN_APROBADAS]
-AS
-BEGIN
-SELECT a.Legajo, a.Alumno, a.Carrera, a.[Anio Carrera],
-CASE WHEN e.nota IS NULL THEN 'Alumno sin registros en finales.'
-			WHEN e.nota < 4 THEN 'Alumno sin aprobar finales en los √∫ltimos 5 a√±os.'
-END AS 'Comentario'
-FROM 
-dbo.vw_condiciones_alumnos a
-LEFT JOIN EXAMENES e ON e.legajo = a.legajo AND id_tipo_examen = 4
-WHERE (e.id_examen IS NULL)  OR (YEAR(e.fecha) > YEAR(GETDATE()) - 5 AND e.nota < 4)
-END
-GO
-/****** Object:  StoredProcedure [dbo].[SP_ALUMNOS_SIN_CURSADA]    Script Date: 23/10/2021 19:06:32 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE PROC [dbo].[SP_ALUMNOS_SIN_CURSADA]
-AS
-BEGIN
-SELECT a.legajo Legajo,  a.nombre + ' ' + a.apellido Alumno, c.carrera Carrera FROM ALUMNOS a
-INNER JOIN ALUMNOSxCARRERA ac ON ac.legajo = a.legajo
-INNER JOIN CARRERAS c ON c.id_carrera = ac.id_carrera
-WHERE a.legajo NOT IN (SELECT legajo FROM ALUMNOSxMATERIA WHERE anio_cursado = YEAR(GETDATE()) AND id_condicion IN (1,2))
-END
-GO
-/****** Object:  StoredProcedure [dbo].[SP_CONDICIONES_ALUMNOS]    Script Date: 23/10/2021 19:06:32 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE PROCEDURE [dbo].[SP_CONDICIONES_ALUMNOS]
-@condicion varchar(50) = NULL,
-@materia varchar(50) = NULL,
-@carrera VARCHAR(50) = NULL,
-@curso VARCHAR (6) = NULL,
-@aniocursado  int = NULL,
-@cantidad int = NULL OUTPUT
-AS
-SELECT * INTO #tmp
-FROM dbo.vw_condiciones_alumnos -- Ac√° se usa la vista vw_condiciones_alumnos para simplificar el SP
-WHERE (@condicion IS NULL OR condicion = @condicion) AND -- Las condiciones son 3, pensado que sea valor exacto sacado de combo
-(@materia IS NULL OR materia LIKE '%' + @materia + '%') AND -- Pensado para tomarlo de caja de texto, si escribo "mate" que me traiga resultados de todas las matem√°ticas
-(@carrera IS NULL OR carrera LIKE  '%' + @carrera +'%' ) AND -- Idem anterior
-(@curso IS NULL OR curso = @curso) AND -- Los cursos tambi√©n vendr√≠an de combo fijo. Son ejemplos como para mostrar dos formas, esto lo definir√≠a un usuario
-(@aniocursado IS NULL OR [Anio Cursada] = @aniocursado)
+CREATE TABLE ESTADOS_CIVIL (
+	id_estado_civil int IDENTITY (1,1), 
+	estado_civil varchar (50) not null,
+	CONSTRAINT pk_estado_civil PRIMARY KEY (id_estado_civil)
+)
 
-SELECT * FROM #tmp
-SELECT @cantidad = count(*) FROM #tmp
+CREATE TABLE CARGOS (
+	id_cargo int IDENTITY (1,1), 
+	cargo varchar (50) not null,
+	CONSTRAINT pk_cargos PRIMARY KEY (id_cargo)
+)
 
-DROP TABLE #tmp
+CREATE TABLE SITUACIONES_HABIT (
+	id_situac_habit int IDENTITY(1,1),
+	situac_habit varchar (50),
+	CONSTRAINT pk_id_situac_habit PRIMARY KEY (id_situac_habit)
+)
 
-GO
-/****** Object:  StoredProcedure [dbo].[SP_ESTADISTICAS_ALUMNOS]    Script Date: 23/10/2021 19:06:32 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+CREATE TABLE PAISES (
+id_pais int IDENTITY (1,1), 
+nom_pais varchar (50) not null,
+CONSTRAINT pk_pais PRIMARY KEY (id_pais))
 
-CREATE PROC [dbo].[SP_ESTADISTICAS_ALUMNOS]
-@groupElegido VARCHAR(50) = 'Edad' -- Sale de combo fijo
-AS 
-BEGIN
+CREATE TABLE PROVINCIAS (
+id_provincia int IDENTITY (1,1), 
+nom_provincia varchar (50) not null,
+id_pais int,
+CONSTRAINT pk_provincia PRIMARY KEY (id_provincia),
+CONSTRAINT fk_pais_provincia FOREIGN KEY (id_pais) REFERENCES PAISES (id_pais)
+)
+CREATE TABLE LOCALIDADES (
+id_localidad int IDENTITY (1,1),
+nom_localidad varchar (50) not null,
+id_provincia int,
+CONSTRAINT pk_localidad PRIMARY KEY (id_localidad),
+CONSTRAINT fk_prov_localidad FOREIGN KEY (id_provincia) references PROVINCIAS (id_provincia)
+)
+CREATE TABLE BARRIOS (
+id_barrio int IDENTITY (1,1),
+nom_barrio varchar (50) not null,
+id_localidad int,
+CONSTRAINT pk_barrio PRIMARY KEY (id_barrio),
+CONSTRAINT fk_localidad_barrio FOREIGN KEY (id_localidad) REFERENCES LOCALIDADES (id_localidad)
+)
+CREATE TABLE TIPOS_DOC (
+id_tipo_doc int IDENTITY (1,1),
+tipo_doc varchar (50) not null,
+CONSTRAINT pk_tipos_doc PRIMARY KEY (id_tipo_doc),
+)
+CREATE TABLE TIPOS_TRABAJO (
+id_tipo_trab int IDENTITY (1,1),
+ipo_trabajo varchar (50) not null,
+CONSTRAINT pk_tipos_trab PRIMARY KEY (id_tipo_trab),
+)
+CREATE TABLE ALUMNOS (
+	legajo int IDENTITY (1,1),
+	nombre varchar (50) not null,
+	apellido varchar (50) not null,
+	genero varchar (50),
+	id_tipo_doc int,
+	num_doc varchar (10),
+	calle varchar (50),
+	numero int, 
+	id_situac_habit int,
+	fecha_nac date,
+	id_estado_civil int,
+	trabaja bit not null,
+	id_tipo_trab int,
+	id_barrio int, 
+	telefono int,
+	email varchar (50),
+	CONSTRAINT pk_alumnos PRIMARY KEY (legajo),
+	CONSTRAINT fk_tipo_doc_alumno FOREIGN KEY (id_tipo_doc) REFERENCES TIPOS_DOC (id_tipo_doc),
+	CONSTRAINT fk_tipo_trab_alumno FOREIGN KEY (id_tipo_trab) REFERENCES TIPOS_TRABAJO (id_tipo_trab),
+	CONSTRAINT fk_barrio_alumno FOREIGN KEY (id_barrio) REFERENCES BARRIOS (id_barrio),
+	CONSTRAINT fk_situaciones_habit_alumno FOREIGN KEY (id_situac_habit) REFERENCES SITUACIONES_HABIT (id_situac_habit),
+	CONSTRAINT fk_estado_civil_alumno FOREIGN KEY (id_estado_civil) REFERENCES ESTADOS_CIVIL (id_estado_civil)
+)
 
-DECLARE @groupByGenerico NVARCHAR(150) 
-DECLARE @groupByEdad NVARCHAR(150) = N'FLOOR(DATEDIFF(day, a.fecha_nac, GETDATE())/365.25)'
-DECLARE @groupByEstadoCivil VARCHAR(50) = 'ec.estado_civil'
-DECLARE @groupBySitHabit VARCHAR(50) = 'sh.situac_habit'
-DECLARE @groupBySitLabo VARCHAR(50) = 'tt.tipo_trabajo'
+CREATE TABLE TIPOS_EXAMEN (
+id_tipo_examen int IDENTITY (1,1),
+tipo_examen varchar (30),
+CONSTRAINT pk_tipos_examen PRIMARY KEY (id_tipo_examen)
+)
+CREATE TABLE TURNOS_EXAMEN (
+id_turno int IDENTITY (1,1),
+turno varchar (30) not null,
+anio_lectivo int,
+CONSTRAINT pk_turnos_examen PRIMARY KEY (id_turno)
+)
+CREATE TABLE CURSOS (
+id_curso int IDENTITY (1,1),
+curso varchar (30) not null,
+CONSTRAINT pk_cursos PRIMARY KEY (id_curso)
+)
+CREATE TABLE CARRERAS (
+id_carrera int IDENTITY (1,1),
+carrera varchar (100) not null,
+CONSTRAINT pk_carreras PRIMARY KEY (id_carrera)
+)
+CREATE TABLE CONDICIONES (
+id_condicion int IDENTITY (1,1),
+condicion varchar (30) not null,
+CONSTRAINT pk_condiciones PRIMARY KEY (id_condicion)
+)
+CREATE TABLE MATERIAS (
+id_materia int IDENTITY (1,1),
+materia varchar (100) not null,
+CONSTRAINT pk_materias PRIMARY KEY (id_materia)
+)
+CREATE TABLE DOCENTES (
+id_docente int IDENTITY (1,1),
+nombre varchar (50) not null,
+apellido varchar (50) not null,
+email nvarchar (60),
+telefono varchar (30),
+CONSTRAINT pk_docentes PRIMARY KEY (id_docente)
+)
 
-SET @groupByGenerico = CASE @groupElegido WHEN 'Edad' THEN @groupByEdad
-									      WHEN 'Estado Civil' THEN @groupByEstadoCivil
-										  WHEN 'Situaci√≥n Habitacional' THEN @groupBySitHabit 
-										  WHEN 'Situaci√≥n Laboral' THEN @groupBySitLabo
-END
+CREATE TABLE ALUMNOSxMATERIA (
+id_alumno_materia int IDENTITY(1,1),
+legajo int,
+id_materia int,
+id_condicion int,
+anio_cursado int
 
-DECLARE @SQL NVARCHAR(MAX)  = 
-'SELECT '+ @groupByGenerico + ' AS ''' + @groupElegido + '''' + ',  co.condicion Condicion, AVG(e.nota) Promedio, count(*) Cantidad FROM
-ALUMNOS a
-INNER JOIN EXAMENES e ON e.legajo = a.legajo AND e.id_tipo_examen = 4
-INNER JOIN ALUMNOSxMATERIA am ON am.legajo = e.legajo AND e.id_materia  = am.id_materia
-INNER JOIN MATERIAS m ON m.id_materia = am.id_materia AND e.id_materia = m.id_materia
-INNER JOIN CONDICIONES co ON co.id_condicion = am.id_condicion
-LEFT JOIN SITUACIONES_HABIT sh ON sh.id_situac_habit = a.id_situac_habit
-LEFT JOIN ESTADOS_CIVIL ec ON ec.id_estado_civil = a.id_estado_civil
-LEFT JOIN TIPOS_TRABAJO tt ON tt.id_tipo_trab = a.id_tipo_trab
-GROUP BY ' + @groupByGenerico + ' , co.condicion'
+CONSTRAINT pk_alumno_materia  PRIMARY KEY(id_alumno_materia),
+CONSTRAINT fk_legajo_alumnos_x_materia FOREIGN KEY(legajo) REFERENCES ALUMNOS (legajo),
+CONSTRAINT fk_materia_alumnos_x_materia FOREIGN KEY(id_materia) REFERENCES MATERIAS (id_materia),
+CONSTRAINT fk_condicion_alumnos_x_materia FOREIGN KEY (id_condicion) REFERENCES CONDICIONES (id_condicion)
+)
 
-exec sp_executesql @SQL
+CREATE TABLE ALUMNOSxCARRERA (
+id_carrera_alumno int IDENTITY(1,1),
+legajo int,
+id_carrera int
 
-END
-GO
-/****** Object:  StoredProcedure [dbo].[SP_PROMEDIO_NOTAS]    Script Date: 23/10/2021 19:06:32 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE PROC [dbo].[SP_PROMEDIO_NOTAS]
-@legajo int = NULL,
-@idmateria int = NULL,
-@aniocursado int = NULL,
-@idcurso int = NULL,
-@idcarrera int = NULL,
-@promedio numeric(5,2) OUTPUT
-AS 
-SELECT @promedio = AVG(CAST(nota AS NUMERIC(5,2))) FROM
-EXAMENES e 
-INNER JOIN ALUMNOSxMATERIA am ON e.legajo= am.legajo AND e.id_materia = am.id_materia
-INNER JOIN ALUMNOSxCURSO ac ON ac.legajo = am.legajo 
-INNER JOIN MATERIASxCURSO mc ON mc.id_curso = ac.id_curso AND am.id_materia = mc.id_materia
-INNER JOIN MATERIASxCARRERA mca ON mca.id_materia = e.id_materia
-WHERE
-(@legajo IS NULL OR am.legajo = @legajo) AND
-(@idmateria IS NULL OR am.id_materia = @idmateria) AND
-(@idcarrera IS NULL OR mca.id_carrera = @idcarrera) AND
-(@idcurso IS NULL OR mc.id_curso = @idcurso) AND
-(@aniocursado IS NULL OR am.anio_cursado = @aniocursado)
-GO
-/****** Object:  Trigger [dbo].[TRG_VALIDA_EXAMEN]    Script Date: 23/10/2021 19:06:32 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TRIGGER [dbo].[TRG_VALIDA_EXAMEN]
-ON [dbo].[EXAMENES]
-FOR INSERT, UPDATE
-AS
-BEGIN
+CONSTRAINT pk_carrera_alumno PRIMARY KEY (id_carrera_alumno),
+CONSTRAINT fk_legajo_alumnos_x_carrera FOREIGN KEY (legajo) REFERENCES ALUMNOS (legajo),
+CONSTRAINT fk_carrera_alumnos_x_carrera FOREIGN KEY (id_carrera) REFERENCES CARRERAS (id_carrera)
+)
 
-DECLARE @legajo int DECLARE @legajoOld int
-DECLARE @materia int DECLARE @materiaOld int
-DECLARE @id_examen int
+CREATE TABLE ALUMNOSxCURSO (
+id_alumno_curso int IDENTITY(1,1),
+legajo int,
+id_curso int
 
-SELECT @legajo = legajo, @materia = id_materia, @id_examen = id_examen FROM inserted
+CONSTRAINT pk_alumno_curso PRIMARY KEY (id_alumno_curso),
+CONSTRAINT fk_legajo_alumnos_x_curso FOREIGN KEY (legajo) REFERENCES ALUMNOS (legajo),
+CONSTRAINT fk_curso_alumnos_x_curso FOREIGN KEY (id_curso) REFERENCES CURSOS (id_curso)
+)
 
-SELECT @legajoOld = legajo, @materiaOld = id_materia, @id_examen = id_examen FROM deleted
+CREATE TABLE EXAMENES (
+id_examen int IDENTITY(1,1),
+id_tipo_examen int,
+fecha datetime,
+id_turno int,
+id_materia int
 
-IF(EXISTS (SELECT legajo FROM ALUMNOSxMATERIA WHERE legajo = @legajo AND id_materia = @materia AND id_condicion in (1,2) AND anio_cursado > YEAR(GETDATE()) - 5))
-	IF (EXISTS (SELECT * FROM DELETED))
-		PRINT ('Modificaci√≥n en datos de examen realizada con √©xito.')
-	ELSE
-		PRINT ('Inscripci√≥n realizada con √©xito.')
-ELSE
-	IF (EXISTS (SELECT * FROM DELETED))
-	BEGIN
-		UPDATE EXAMENES SET id_materia = @materia, legajo = @legajoOld WHERE id_examen = @id_examen
-		RAISERROR('Hubo un error al modificar los datos del examen. Revise el estado del alumno y vuelva a intentarlo.', 16,1)
-	END
-	ELSE
-	BEGIN
-		DELETE FROM EXAMENES WHERE id_examen = @id_examen
-		RAISERROR('Hubo un error al registrar el examen, verifique que el alumno est√© en condiciones de poder inscribirse.', 16, 1)
-	END
-END
-GO
-ALTER TABLE [dbo].[EXAMENES] ENABLE TRIGGER [TRG_VALIDA_EXAMEN]
-GO
-USE [master]
-GO
-ALTER DATABASE [Academika] SET  READ_WRITE 
-GO
+CONSTRAINT pk_examen PRIMARY KEY (id_examen),
+CONSTRAINT fk_tipo_examen_examenes FOREIGN KEY (id_tipo_examen) REFERENCES TIPOS_EXAMEN (id_tipo_examen),
+CONSTRAINT fk_turno_examenes FOREIGN KEY (id_turno) REFERENCES TURNOS_EXAMEN (id_turno),
+CONSTRAINT fk_materia_examentes FOREIGN KEY (id_materia) REFERENCES MATERIAS (id_materia)
+
+)
+
+CREATE TABLE MATERIASxCURSO(
+id_materia_curso int IDENTITY(1,1),
+id_materia int,
+id_curso int,
+
+CONSTRAINT pk_materia_curso PRIMARY KEY (id_materia_curso),
+CONSTRAINT fk_materia_materias_x_curso FOREIGN KEY (id_materia) REFERENCES MATERIAS (id_materia),
+CONSTRAINT fk_curso_materias_x_curso FOREIGN KEY (id_curso) REFERENCES CURSOS (id_curso)
+)
+
+
+
+CREATE TABLE DOCENTESxMATERIA (
+id_docente_materia int IDENTITY(1,1),
+id_docente int,
+id_materia_curso int
+
+CONSTRAINT pk_docente_materia PRIMARY KEY (id_docente_materia),
+CONSTRAINT fk_docente_docentes_x_materia FOREIGN KEY (id_docente) REFERENCES DOCENTES (id_docente),
+CONSTRAINT fk_materia_curso_docentes_x_materia FOREIGN KEY (id_materia_curso) REFERENCES MATERIASxCURSO (id_materia_curso)
+)
+
+CREATE TABLE MATERIASxCARRERA (
+	id_materias_carrera int IDENTITY (1,1),
+	id_carrera int, 
+	id_materia int, 
+	CONSTRAINT pk_id_materias_carrera PRIMARY KEY (id_materias_carrera),
+	CONSTRAINT fk_id_carrera FOREIGN KEY (id_materias_carrera) REFERENCES carreras (id_carrera),
+	CONSTRAINT fk_id_materia FOREIGN KEY (id_materia) REFERENCES materias (id_materia)
+)
+
+CREATE TABLE DOCENTExTURNO (
+	id_docente_turno int IDENTITY (1,1),
+	id_docente int,
+	id_turno int,
+	id_cargo int,
+	CONSTRAINT pk_docente_turno PRIMARY KEY (id_docente_turno),
+	CONSTRAINT fk_docente_docente_turno FOREIGN KEY (id_docente) REFERENCES DOCENTES (id_docente),
+	CONSTRAINT fk_turno_docente_turno FOREIGN KEY (id_turno) REFERENCES TURNOS_EXAMEN (id_turno),
+	CONSTRAINT fk_cargo_docente_turno FOREIGN KEY (id_cargo) REFERENCES CARGOS (id_cargo)
+)
+
+
+--==================================================================
+--INSERTS:
+
+--PROVINCIAS:
+INSERT INTO PROVINCIAS (nom_provincia) VALUES('BUENOS AIRES')
+INSERT INTO PROVINCIAS (nom_provincia) VALUES('CATAMARCA')
+INSERT INTO PROVINCIAS (nom_provincia) VALUES('CHACO')
+INSERT INTO PROVINCIAS (nom_provincia) VALUES('CHUBUT')
+INSERT INTO PROVINCIAS (nom_provincia) VALUES('CORDOBA')
+INSERT INTO PROVINCIAS (nom_provincia) VALUES('CORRIENTES')
+INSERT INTO PROVINCIAS (nom_provincia) VALUES('ENTRE RIOS')
+INSERT INTO PROVINCIAS (nom_provincia) VALUES('FORMOSA')
+INSERT INTO PROVINCIAS (nom_provincia) VALUES('JUJUY')
+INSERT INTO PROVINCIAS (nom_provincia) VALUES('LA PAMPA')
+INSERT INTO PROVINCIAS (nom_provincia) VALUES('LA RIOJA')
+INSERT INTO PROVINCIAS (nom_provincia) VALUES('MENDOZA')
+INSERT INTO PROVINCIAS (nom_provincia) VALUES('MISIONES')
+INSERT INTO PROVINCIAS (nom_provincia) VALUES('NEUQUEN')
+INSERT INTO PROVINCIAS (nom_provincia) VALUES('RIO NEGRO')
+INSERT INTO PROVINCIAS (nom_provincia) VALUES('SALTA')
+INSERT INTO PROVINCIAS (nom_provincia) VALUES('SAN JUAN')
+INSERT INTO PROVINCIAS (nom_provincia) VALUES('SAN LUIS')
+INSERT INTO PROVINCIAS (nom_provincia) VALUES('SANTA CRUZ')
+INSERT INTO PROVINCIAS (nom_provincia) VALUES('SANTA FE')
+INSERT INTO PROVINCIAS (nom_provincia) VALUES('SANTIAGO DEL ESTERO')
+INSERT INTO PROVINCIAS (nom_provincia) VALUES('TIERRA DEL FUEGO')
+INSERT INTO PROVINCIAS (nom_provincia) VALUES('TUCUMAN')
+
+--LOCALIDADES
+INSERT INTO LOCALIDADES (nom_localidad, id_provincia) VALUES('CORDOBA', 5)
+INSERT INTO LOCALIDADES (nom_localidad, id_provincia) VALUES('CARLOS PAZ', 5)
+INSERT INTO LOCALIDADES (nom_localidad, id_provincia) VALUES('ADELIA MARIA', 5)
+INSERT INTO LOCALIDADES (nom_localidad, id_provincia) VALUES('ALTA GRACIA', 5)
+INSERT INTO LOCALIDADES (nom_localidad, id_provincia) VALUES('AGUA DE ORO', 5)
+INSERT INTO LOCALIDADES (nom_localidad, id_provincia) VALUES('AGUA DEL TALA', 5)
+INSERT INTO LOCALIDADES (nom_localidad, id_provincia) VALUES('AGUA PINTADA', 5)
+INSERT INTO LOCALIDADES (nom_localidad, id_provincia) VALUES('ALEJANDRO ROCA', 5)
+INSERT INTO LOCALIDADES (nom_localidad, id_provincia) VALUES('ARIAS', 5)
+INSERT INTO LOCALIDADES (nom_localidad, id_provincia) VALUES('ARROYO CABRAL', 5)
+INSERT INTO LOCALIDADES (nom_localidad, id_provincia) VALUES('ARROYO LA HIGUERA', 5)
+INSERT INTO LOCALIDADES (nom_localidad, id_provincia) VALUES('ASCOCHINGA', 5)
+INSERT INTO LOCALIDADES (nom_localidad, id_provincia) VALUES('BAJO DE FERNANDEZ', 5)
+INSERT INTO LOCALIDADES (nom_localidad, id_provincia) VALUES('BAJO DEL CARMEN', 5)
+INSERT INTO LOCALIDADES (nom_localidad, id_provincia) VALUES('BAJO GRANDE', 5)
+INSERT INTO LOCALIDADES (nom_localidad, id_provincia) VALUES('BAJO HONDO', 5)
+INSERT INTO LOCALIDADES (nom_localidad, id_provincia) VALUES('BAJO LINDO', 5)
+INSERT INTO LOCALIDADES (nom_localidad, id_provincia) VALUES('BARRIO DEAN FUNES', 5)
+INSERT INTO LOCALIDADES (nom_localidad, id_provincia) VALUES('BARRIO LA FERIA', 5)
+INSERT INTO LOCALIDADES (nom_localidad, id_provincia) VALUES('BULNES', 5)
+INSERT INTO LOCALIDADES (nom_localidad, id_provincia) VALUES('CAJON DEL RIO', 5)
+INSERT INTO LOCALIDADES (nom_localidad, id_provincia) VALUES('CALASUYA', 5)
+INSERT INTO LOCALIDADES (nom_localidad, id_provincia) VALUES('CAMPO BANDILLO', 5)
+INSERT INTO LOCALIDADES (nom_localidad, id_provincia) VALUES('CAMPO LOS ZORROS', 5)
+INSERT INTO LOCALIDADES (nom_localidad, id_provincia) VALUES('CANDELARIA SUR', 5)
+INSERT INTO LOCALIDADES (nom_localidad, id_provincia) VALUES('CAPILLA DE SITON', 5)
+INSERT INTO LOCALIDADES (nom_localidad, id_provincia) VALUES('CAPILLA LA ESPERANZA', 5)
+INSERT INTO LOCALIDADES (nom_localidad, id_provincia) VALUES('CASAS VEJAS', 5)
+INSERT INTO LOCALIDADES (nom_localidad, id_provincia) VALUES('CASEROS ESTE', 5)
+INSERT INTO LOCALIDADES (nom_localidad, id_provincia) VALUES('CA—ADA DE LUQUE', 5)
+INSERT INTO LOCALIDADES (nom_localidad, id_provincia) VALUES('CA—ADA DEL TALA', 5)
+INSERT INTO LOCALIDADES (nom_localidad, id_provincia) VALUES('CA—ADA VERDE', 5)
+INSERT INTO LOCALIDADES (nom_localidad, id_provincia) VALUES('CERRO PELADO', 5)
+INSERT INTO LOCALIDADES (nom_localidad, id_provincia) VALUES('CHARACATO', 5)
+INSERT INTO LOCALIDADES (nom_localidad, id_provincia) VALUES('CHA—ARIACO', 5)
+INSERT INTO LOCALIDADES (nom_localidad, id_provincia) VALUES('CHIPITIN', 5)
+INSERT INTO LOCALIDADES (nom_localidad, id_provincia) VALUES('CHUA', 5)
+INSERT INTO LOCALIDADES (nom_localidad, id_provincia) VALUES('CHURQUI CA—ADA', 5)
+INSERT INTO LOCALIDADES (nom_localidad, id_provincia) VALUES('COLAZO', 5)
+
+
+--BARRIOS
+INSERT INTO BARRIOS(nom_barrio, id_localidad) VALUES ('CENTRO', 1)
+INSERT INTO BARRIOS(nom_barrio, id_localidad) VALUES ('ALTO ALBERDI', 1)
+INSERT INTO BARRIOS(nom_barrio, id_localidad) VALUES ('OBSERVATORIO', 1)
+INSERT INTO BARRIOS(nom_barrio, id_localidad) VALUES ('JARDIN', 1)
+INSERT INTO BARRIOS(nom_barrio, id_localidad) VALUES ('GENERAL PAZ', 1)
+INSERT INTO BARRIOS(nom_barrio, id_localidad) VALUES ('PUEYRREDON', 1)
+INSERT INTO BARRIOS(nom_barrio, id_localidad) VALUES ('PARQUE HORIZONTE', 1)
+INSERT INTO BARRIOS(nom_barrio, id_localidad) VALUES ('SAN MARTIN', 1)
+INSERT INTO BARRIOS(nom_barrio, id_localidad) VALUES ('SAN VICENTE', 1)
+INSERT INTO BARRIOS(nom_barrio, id_localidad) VALUES ('JUNIOR', 1)
+INSERT INTO BARRIOS(nom_barrio, id_localidad) VALUES ('MAIPU', 1)
+INSERT INTO BARRIOS(nom_barrio, id_localidad) VALUES ('PANAMERICANO', 1)
+
+--TIPOS DOC
+
+INSERT INTO tipos_doc(tipo_doc) VALUES ('DNI')
+INSERT INTO tipos_doc(tipo_doc) VALUES ('PASAPORTE')
+INSERT INTO tipos_doc(tipo_doc) VALUES ('LIBRETA CIVICA')
+INSERT INTO tipos_doc(tipo_doc) VALUES ('CARNET EXTRANJERO')
+INSERT INTO tipos_doc(tipo_doc) VALUES ('PARTIDA NACIMIENTO')
+INSERT INTO tipos_doc(tipo_doc) VALUES ('OTRO')
+INSERT INTO tipos_doc(tipo_doc) VALUES ('REG. UNICO CONTRIBUYENTE')
+INSERT INTO tipos_doc(tipo_doc) VALUES ('CUIT')
+INSERT INTO tipos_doc(tipo_doc) VALUES ('CUIL')
+
+-- TIPOS_TRABAJO
+
+INSERT INTO TIPOS_TRABAJO VALUES ('Rel. Dependencia Full-Time')
+INSERT INTO TIPOS_TRABAJO VALUES ('Rel. Dependencia Part-Time')
+INSERT INTO TIPOS_TRABAJO VALUES ('Trabajador Independiente')
+
+--REVISAR SI FALTA ALG⁄N TIPO DE EXAMEN
+-- TIPOS_EXAMEN
+INSERT INTO TIPOS_EXAMEN(tipo_examen) VALUES ('PRIMER PARCIAL')
+INSERT INTO TIPOS_EXAMEN(tipo_examen) VALUES ('SEGUNDO PARCIAL')
+INSERT INTO TIPOS_EXAMEN(tipo_examen) VALUES ('RECUPERATORIO')
+INSERT INTO TIPOS_EXAMEN(tipo_examen) VALUES ('EXAMEN FINAL')
+
+
+
+--TURNOS_EXAMEN
+INSERT INTO TURNOS_EXAMEN(turno, anio_lectivo) VALUES ('PRIMER TURNO', 21)
+INSERT INTO TURNOS_EXAMEN(turno, anio_lectivo) VALUES ('SEGUNDO TURNO', 21)
+INSERT INTO TURNOS_EXAMEN(turno, anio_lectivo) VALUES ('TERCER TURNO', 21 )
+INSERT INTO TURNOS_EXAMEN(turno, anio_lectivo) VALUES ('CUARTO TURNO', 21 )
+INSERT INTO TURNOS_EXAMEN(turno, anio_lectivo) VALUES ('PRIMER TURNO', 20)
+INSERT INTO TURNOS_EXAMEN(turno, anio_lectivo) VALUES ('SEGUNDO TURNO', 20)
+INSERT INTO TURNOS_EXAMEN(turno, anio_lectivo) VALUES ('TERCER TURNO', 20 )
+INSERT INTO TURNOS_EXAMEN(turno, anio_lectivo) VALUES ('CUARTO TURNO', 20 )
+INSERT INTO TURNOS_EXAMEN(turno, anio_lectivo) VALUES ('PRIMER TURNO', 21)
+INSERT INTO TURNOS_EXAMEN(turno, anio_lectivo) VALUES ('SEGUNDO TURNO', 21)
+INSERT INTO TURNOS_EXAMEN(turno, anio_lectivo) VALUES ('TERCER TURNO', 21 )
+INSERT INTO TURNOS_EXAMEN(turno, anio_lectivo) VALUES ('CUARTO TURNO', 21 )
+INSERT INTO TURNOS_EXAMEN(turno, anio_lectivo) VALUES ('PRIMER TURNO', 22)
+INSERT INTO TURNOS_EXAMEN(turno, anio_lectivo) VALUES ('SEGUNDO TURNO', 22)
+INSERT INTO TURNOS_EXAMEN(turno, anio_lectivo) VALUES ('TERCER TURNO', 22 )
+INSERT INTO TURNOS_EXAMEN(turno, anio_lectivo) VALUES ('CUARTO TURNO', 22 )
+
+
+--CARGOS
+INSERT INTO CARGOS(cargo) VALUES ('PRESIDENTE DE MESA')
+INSERT INTO CARGOS(cargo) VALUES ('PRIMER VOCAL')
+INSERT INTO CARGOS(cargo) VALUES ('SEGUNDO VOCAL')
+
+--CONDICIONES
+INSERT INTO CONDICIONES(condicion) VALUES ('REGULAR')
+INSERT INTO CONDICIONES(condicion) VALUES ('PROMOCIONAL')
+INSERT INTO CONDICIONES(condicion) VALUES ('LIBRE')
+
+
+
+
+
+--MATERIAS
+--TUP
+INSERT INTO MATERIAS(materia) VALUES ('PROGRAMACION I')
+INSERT INTO MATERIAS(materia) VALUES ('SISTEMAS DE PROCESAMIENTO DE DATOS')
+INSERT INTO MATERIAS(materia) VALUES ('MATEMATICA')
+INSERT INTO MATERIAS(materia) VALUES ('INGLES I')
+INSERT INTO MATERIAS(materia) VALUES ('LABORATORIO DE COMPUTACION I')
+INSERT INTO MATERIAS(materia) VALUES ('PROGRAMACION II')
+INSERT INTO MATERIAS(materia) VALUES ('ARQUITECTURA Y SISTEMAS OPERATIVOSI')
+INSERT INTO MATERIAS(materia) VALUES ('ESTADISTICA')
+INSERT INTO MATERIAS(materia) VALUES ('INGLES II')
+INSERT INTO MATERIAS(materia) VALUES ('LABORATORIO DE COMPUTACION II')
+INSERT INTO MATERIAS(materia) VALUES ('METODOLOGIA DE LA INVESTIGACION')
+INSERT INTO MATERIAS(materia) VALUES ('PROGRAMACION III')
+INSERT INTO MATERIAS(materia) VALUES ('ORGANIZACION CONTABLE DE LA EMPRESA')
+INSERT INTO MATERIAS(materia) VALUES ('ORGANIZACION EMPRESARIAL')
+INSERT INTO MATERIAS(materia) VALUES ('ELEMENTOS DE INVESTIGACION OPERATIVA')
+INSERT INTO MATERIAS(materia) VALUES ('LABORATORIO DE COMPUTACION III')
+INSERT INTO MATERIAS(materia) VALUES ('METODOLOGIA DE SISTEMAS I')
+INSERT INTO MATERIAS(materia) VALUES ('DISE—O Y ADMINISTRACION DE BASES DE DATOS')
+INSERT INTO MATERIAS(materia) VALUES ('LEGISLACION')
+INSERT INTO MATERIAS(materia) VALUES ('LABORATORIO DE COMPUTACION IV')
+INSERT INTO MATERIAS(materia) VALUES ('PRACTICA PROFESIONAL - TUP')
+--TUM(MECATRONICA)
+INSERT INTO MATERIAS(materia) VALUES ('MECATRONICA I')
+INSERT INTO MATERIAS(materia) VALUES ('FISICA')
+INSERT INTO MATERIAS(materia) VALUES ('MATEMATICA')
+INSERT INTO MATERIAS(materia) VALUES ('INGLES')
+INSERT INTO MATERIAS(materia) VALUES ('HERRAMIENTAS INFORMATICAS')
+INSERT INTO MATERIAS(materia) VALUES ('SISTEMAS CAD')
+INSERT INTO MATERIAS(materia) VALUES ('MATERIALES')
+INSERT INTO MATERIAS(materia) VALUES ('ELECTROTECNIA I')
+INSERT INTO MATERIAS(materia) VALUES ('SISTEMAS DIGITALES')
+INSERT INTO MATERIAS(materia) VALUES ('MECATRONICA II')
+INSERT INTO MATERIAS(materia) VALUES ('MECANICA I')
+INSERT INTO MATERIAS(materia) VALUES ('MANTENIMIENTO INDUSTRIAL')
+INSERT INTO MATERIAS(materia) VALUES ('ELECTRONICA')
+INSERT INTO MATERIAS(materia) VALUES ('ELECTROTECNIA II')
+INSERT INTO MATERIAS(materia) VALUES ('MECANICA II')
+INSERT INTO MATERIAS(materia) VALUES ('TECNOLOGIA DE LA FABRICACION')
+INSERT INTO MATERIAS(materia) VALUES ('AUTOMACION INDUSTRIAL')
+INSERT INTO MATERIAS(materia) VALUES ('GESTION DE LA CALIDAD Y METROLOGIA')
+INSERT INTO MATERIAS(materia) VALUES ('PASANTIA ENTES OFICIALES O EMPRESAS')
+INSERT INTO MATERIAS(materia) VALUES ('SEMINARIOS')
+
+--TUMI
+INSERT INTO MATERIAS(materia) VALUES ('MANTENIMIENTO INDUSTRIAL I')
+INSERT INTO MATERIAS(materia) VALUES ('ELECTROTECNIA I')
+INSERT INTO MATERIAS(materia) VALUES ('MATEMATICA')
+INSERT INTO MATERIAS(materia) VALUES ('QUIMICA')
+INSERT INTO MATERIAS(materia) VALUES ('RELACIONES INDUSTRIALES')
+INSERT INTO MATERIAS(materia) VALUES ('INFORMATICA I')
+INSERT INTO MATERIAS(materia) VALUES ('MECANICA II')
+INSERT INTO MATERIAS(materia) VALUES ('SISTEMA DE REPRESENTACION')
+INSERT INTO MATERIAS(materia) VALUES ('CONOCIMIENTOS DE LOS MATERIALES')
+INSERT INTO MATERIAS(materia) VALUES ('NEUMATICA E HIDRAULICA')
+INSERT INTO MATERIAS(materia) VALUES ('MANTENIMIENTO INDUSTRIAL II')
+INSERT INTO MATERIAS(materia) VALUES ('ELEMENTOS DE MAQUINAS')
+INSERT INTO MATERIAS(materia) VALUES ('TECNOLOGIA DE FRIO Y CALOR')
+INSERT INTO MATERIAS(materia) VALUES ('INSTALACIONES Y MAQUINAS ELECTRICAS')
+INSERT INTO MATERIAS(materia) VALUES ('INFORMATICA II')
+INSERT INTO MATERIAS(materia) VALUES ('ELEMENTOS DE AUTOMATICACION')
+INSERT INTO MATERIAS(materia) VALUES ('INGLES')
+INSERT INTO MATERIAS(materia) VALUES ('SEGURIDAD HIGIENE Y PROTECCION AMBIENTAL')
+INSERT INTO MATERIAS(materia) VALUES ('COSTOS Y CONTROL DE GESTION')
+INSERT INTO MATERIAS(materia) VALUES ('ASEGURAMIENTO DE LA CALIDAD')
+INSERT INTO MATERIAS(materia) VALUES ('PRACTICA PROFESIONAL - TUMI')
+INSERT INTO MATERIAS(materia) VALUES ('PASANTIA - TUMI')
+
+
+
+-- SITUACIONES_HABIT
+
+INSERT INTO SITUACIONES_HABIT VALUES ('Vivienda propia')
+INSERT INTO SITUACIONES_HABIT VALUES ('Alquiler fijo')
+INSERT INTO SITUACIONES_HABIT VALUES ('Alquiler temporal')
+INSERT INTO SITUACIONES_HABIT VALUES ('Vivienda compartida no propia')
+
+-- ESTADOS_CIVIL
+INSERT INTO ESTADOS_CIVIL VALUES ('Casado/a')
+INSERT INTO ESTADOS_CIVIL VALUES ('Soltero/a')
+INSERT INTO ESTADOS_CIVIL VALUES ('Viudo/a')
+INSERT INTO ESTADOS_CIVIL VALUES ('Divorciado/a')
+
+
+-- CARRERAS
+
+INSERT INTO CARRERAS VALUES ('Tecnicatura en ProgramaciÛn')
+INSERT INTO CARRERAS VALUES ('Tecnicatura en MecatrÛnica')
+INSERT INTO CARRERAS VALUES ('Tecnicatura en Mantenimiento Industrial')
+
+-- CURSOS
+INSERT INTO CURSOS VALUES ('1W1')
+INSERT INTO CURSOS VALUES ('1W2')
+INSERT INTO CURSOS VALUES ('1W3')
+INSERT INTO CURSOS VALUES ('2W1')
+INSERT INTO CURSOS VALUES ('2W2')
+INSERT INTO CURSOS VALUES ('2W3')
+INSERT INTO CURSOS VALUES ('1X1')
+INSERT INTO CURSOS VALUES ('1X2')
+INSERT INTO CURSOS VALUES ('1X3')
+INSERT INTO CURSOS VALUES ('2X1')
+INSERT INTO CURSOS VALUES ('2X2')
+INSERT INTO CURSOS VALUES ('2X3')
+INSERT INTO CURSOS VALUES ('1T1')
+INSERT INTO CURSOS VALUES ('1T2')
+INSERT INTO CURSOS VALUES ('1T3')
+INSERT INTO CURSOS VALUES ('2T1')
+INSERT INTO CURSOS VALUES ('2T2')
+INSERT INTO CURSOS VALUES ('2T3')
+
+-- DOCENTES
+
+INSERT INTO DOCENTES VALUES('Carlos','Gonz·lez','carlosgonzalez@gmail.com',1143789800)
+INSERT INTO DOCENTES VALUES('Maria Belen','MuÒoz','MariaBelenMuÒoz@gmail.com',1143913032)
+INSERT INTO DOCENTES VALUES('Camila','Rojas','CamilaRojas@gmail.com',1144036264)
+INSERT INTO DOCENTES VALUES('Juan Manuel','DÌaz','JuanManuelDÌaz@gmail.com',1144159496)
+INSERT INTO DOCENTES VALUES('Maria Florencia','PÈrez','MariaFlorenciaPÈrez@gmail.com',1144282728)
+INSERT INTO DOCENTES VALUES('Juan Ignacio','Soto','JuanIgnacioSoto@gmail.com',1144405960)
+INSERT INTO DOCENTES VALUES('Nicolas','Contreras','NicolasContreras@gmail.com',1144529192)
+INSERT INTO DOCENTES VALUES('Rocio Belen','Silva','RocioBelenSilva@gmail.com',1144652424)
+INSERT INTO DOCENTES VALUES('Florencia','MartÌnez','FlorenciaMartÌnez@gmail.com',1144775656)
+INSERT INTO DOCENTES VALUES('Juan Cruz','Sep˙lveda','JuanCruzSep˙lveda@gmail.com',1144898888)
+INSERT INTO DOCENTES VALUES('Sofia','Morales','SofiaMorales@gmail.com',1145022120)
+INSERT INTO DOCENTES VALUES('Matias Ezequiel','RodrÌguez','MatiasEzequielRodrÌguez@gmail.com',1145145352)
+INSERT INTO DOCENTES VALUES('Agustin','LÛpez','AgustinLÛpez@gmail.com',1145268584)
+INSERT INTO DOCENTES VALUES('Maria Sol','Fuentes','MariaSolFuentes@gmail.com',1145391816)
+INSERT INTO DOCENTES VALUES('Agustina','Hern·ndez','AgustinaHern·ndez@gmail.com',1145515048)
+INSERT INTO DOCENTES VALUES('Tom·s','Torres','Tom·sTorres@gmail.com',1145638280)
+INSERT INTO DOCENTES VALUES('Miguel Angel','Araya','MiguelAngelAraya@gmail.com',1145761512)
+INSERT INTO DOCENTES VALUES('Micaela','Flores','MicaelaFlores@gmail.com',1145884744)
+INSERT INTO DOCENTES VALUES('Juan Pablo','Espinoza','JuanPabloEspinoza@gmail.com',1146007976)
+INSERT INTO DOCENTES VALUES('Maria Victoria','Valenzuela','MariaVictoriaValenzuela@gmail.com',1146131208)
+INSERT INTO DOCENTES VALUES('Jose Luis','Castillo','JoseLuisCastillo@gmail.com',1146254440)
+INSERT INTO DOCENTES VALUES('Santiago','Tapia','SantiagoTapia@gmail.com',1146377672)
+INSERT INTO DOCENTES VALUES('MarÌa Eugenia','Reyes','MarÌaEugeniaReyes@gmail.com',1146500904)
+INSERT INTO DOCENTES VALUES('Julieta','GutiÈrrez','JulietaGutiÈrrez@gmail.com',1146624136)
+INSERT INTO DOCENTES VALUES('Camila BelÈn','Castro','CamilaBelÈnCastro@gmail.com',1146747368)
+INSERT INTO DOCENTES VALUES('Matias Nicolas','Pizarro','MatiasNicolasPizarro@gmail.com',1146870600)
+INSERT INTO DOCENTES VALUES('Maria Jose','¡lvarez','MariaJose¡lvarez@gmail.com',1146993832)
+INSERT INTO DOCENTES VALUES('Facundo','V·squez','FacundoV·squez@gmail.com',1147117064)
+INSERT INTO DOCENTES VALUES('Franco','S·nchez','FrancoS·nchez@gmail.com',1147240296)
+INSERT INTO DOCENTES VALUES('Lucia','Fern·ndez','LuciaFern·ndez@gmail.com',1147363528)
+INSERT INTO DOCENTES VALUES('Juan Carlos','RamÌrez','JuanCarlosRamÌrez@gmail.com',1147486760)
+INSERT INTO DOCENTES VALUES('Maria de los Angeles','Carrasco','MariadelosAngelesCarrasco@gmail.com',1147609992)
+INSERT INTO DOCENTES VALUES('Micaela Belen','GÛmez','MicaelaBelenGÛmez@gmail.com',1147733224)
+INSERT INTO DOCENTES VALUES('Federico','CortÈs','FedericoCortÈs@gmail.com',1147856456)
+INSERT INTO DOCENTES VALUES('Gabriel Alejandro','Herrera','GabrielAlejandroHerrera@gmail.com',1147979688)
+INSERT INTO DOCENTES VALUES('Ignacio','N˙Òez','IgnacioN˙Òez@gmail.com',1148102920)
+INSERT INTO DOCENTES VALUES('Francisco','Jara','FranciscoJara@gmail.com',1148226152)
+INSERT INTO DOCENTES VALUES('Matias','Vergara','MatiasVergara@gmail.com',1148349384)
+INSERT INTO DOCENTES VALUES('JoaquÌn','Rivera','JoaquÌnRivera@gmail.com',1148472616)
+INSERT INTO DOCENTES VALUES('Lucas Ezequiel','Figueroa','LucasEzequielFigueroa@gmail.com',1148595848)
+INSERT INTO DOCENTES VALUES('Juan Jose','Riquelme','JuanJoseRiquelme@gmail.com',1148719080)
+INSERT INTO DOCENTES VALUES('Lucas','GarcÌa','LucasGarcÌa@gmail.com',1148842312)
+INSERT INTO DOCENTES VALUES('Franco Nicolas','Miranda','FrancoNicolasMiranda@gmail.com',1148965544)
+INSERT INTO DOCENTES VALUES('Florencia Belen','Bravo','FlorenciaBelenBravo@gmail.com',1149088776)
+INSERT INTO DOCENTES VALUES('MarÌa Agustina','Vera','MarÌaAgustinaVera@gmail.com',1149212008)
+INSERT INTO DOCENTES VALUES('Carolina','Molina','CarolinaMolina@gmail.com',1149335240)
+INSERT INTO DOCENTES VALUES('Nicolas Alejandro','Vega','NicolasAlejandroVega@gmail.com',1149458472)
+INSERT INTO DOCENTES VALUES('Micaela Soledad','Campos','MicaelaSoledadCampos@gmail.com',1149581704)
+INSERT INTO DOCENTES VALUES('Manuel','Sandoval','ManuelSandoval@gmail.com',1149704936)
+INSERT INTO DOCENTES VALUES('Juli·n','Orellana','Juli·nOrellana@gmail.com',1149828168)
+INSERT INTO DOCENTES VALUES('Facundo Nicolas','C·rdenas','FacundoNicolasC·rdenas@gmail.com',1149951400)
+INSERT INTO DOCENTES VALUES('Victoria','Olivares','VictoriaOlivares@gmail.com',1150074632)
+INSERT INTO DOCENTES VALUES('MarÌa Celeste','AlarcÛn','MarÌaCelesteAlarcÛn@gmail.com',1150197864)
+INSERT INTO DOCENTES VALUES('Gonzalo','Gallardo','GonzaloGallardo@gmail.com',1150321096)
+INSERT INTO DOCENTES VALUES('Sofia Belen','Ortiz','SofiaBelenOrtiz@gmail.com',1150444328)
+INSERT INTO DOCENTES VALUES('Martin','Garrido','MartinGarrido@gmail.com',1150567560)
+INSERT INTO DOCENTES VALUES('Sebasti·n','Salazar','Sebasti·nSalazar@gmail.com',1150690792)
+INSERT INTO DOCENTES VALUES('Antonella','Guzm·n','AntonellaGuzm·n@gmail.com',1150814024)
+INSERT INTO DOCENTES VALUES('Maria Laura','HenrÌquez','MariaLauraHenrÌquez@gmail.com',1150937256)
+INSERT INTO DOCENTES VALUES('Maximiliano','Saavedra','MaximilianoSaavedra@gmail.com',1151060488)
+INSERT INTO DOCENTES VALUES('Luis Alberto','Navarro','LuisAlbertoNavarro@gmail.com',1151183720)
+INSERT INTO DOCENTES VALUES('Maria Fernanda','Aguilera','MariaFernandaAguilera@gmail.com',1151306952)
+INSERT INTO DOCENTES VALUES('Carlos Alberto','Parra','CarlosAlbertoParra@gmail.com',1151430184)
+INSERT INTO DOCENTES VALUES('Nicolas Ezequiel','Romero','NicolasEzequielRomero@gmail.com',1151553416)
+INSERT INTO DOCENTES VALUES('Macarena','Aravena','MacarenaAravena@gmail.com',1151676648)
+INSERT INTO DOCENTES VALUES('Yamila Belen','Vargas','YamilaBelenVargas@gmail.com',1151799880)
+INSERT INTO DOCENTES VALUES('Valentina','V·zquez','ValentinaV·zquez@gmail.com',1151923112)
+INSERT INTO DOCENTES VALUES('Emanuel','C·ceres','EmanuelC·ceres@gmail.com',1152046344)
+INSERT INTO DOCENTES VALUES('Micaela Ayelen','Y·Òez','MicaelaAyelenY·Òez@gmail.com',1152169576)
+INSERT INTO DOCENTES VALUES('Ana Laura','Leiva','AnaLauraLeiva@gmail.com',1152292808)
+INSERT INTO DOCENTES VALUES('Daniel Alejandro','Escobar','DanielAlejandroEscobar@gmail.com',1152416040)
+INSERT INTO DOCENTES VALUES('Martina','Ruiz','MartinaRuiz@gmail.com',1152539272)
+INSERT INTO DOCENTES VALUES('Lucas Gabriel','ValdÈs','LucasGabrielValdÈs@gmail.com',1152662504)
+INSERT INTO DOCENTES VALUES('Maria Emilia','Vidal','MariaEmiliaVidal@gmail.com',1152785736)
+INSERT INTO DOCENTES VALUES('Franco Emanuel','Salinas','FrancoEmanuelSalinas@gmail.com',1152908968)
+INSERT INTO DOCENTES VALUES('Rodrigo','ZuÒiga','RodrigoZuÒiga@gmail.com',1153032200)
+INSERT INTO DOCENTES VALUES('Rocio','PeÒa','RocioPeÒa@gmail.com',1153155432)
+INSERT INTO DOCENTES VALUES('Ana Paula','Godoy','AnaPaulaGodoy@gmail.com',1153278664)
+INSERT INTO DOCENTES VALUES('Brian Ezequiel','Lagos','BrianEzequielLagos@gmail.com',1153401896)
+INSERT INTO DOCENTES VALUES('Maria Soledad','Maldonado','MariaSoledadMaldonado@gmail.com',1153525128)
+INSERT INTO DOCENTES VALUES('Franco Ezequiel','Bustos','FrancoEzequielBustos@gmail.com',1153648360)
+INSERT INTO DOCENTES VALUES('Lucia Belen','Medina','LuciaBelenMedina@gmail.com',1153771592)
+INSERT INTO DOCENTES VALUES('Jonathan Ezequiel','Pino','JonathanEzequielPino@gmail.com',1153894824)
+INSERT INTO DOCENTES VALUES('Ana Belen','Palma','AnaBelenPalma@gmail.com',1154018056)
+INSERT INTO DOCENTES VALUES('Juan Gabriel','Moreno','JuanGabrielMoreno@gmail.com',1154141288)
+INSERT INTO DOCENTES VALUES('Luciano','Sanhueza','LucianoSanhueza@gmail.com',1154264520)
+INSERT INTO DOCENTES VALUES('Lucas Matias','Carvajal','LucasMatiasCarvajal@gmail.com',1154387752)
+INSERT INTO DOCENTES VALUES('Camila Soledad','Navarrete','CamilaSoledadNavarrete@gmail.com',1154510984)
+INSERT INTO DOCENTES VALUES('Lautaro','S·ez','LautaroS·ez@gmail.com',1154634216)
+INSERT INTO DOCENTES VALUES('Milagros','Alvarado','MilagrosAlvarado@gmail.com',1154757448)
+INSERT INTO DOCENTES VALUES('Ezequiel','Donoso','EzequielDonoso@gmail.com',1154880680)
+INSERT INTO DOCENTES VALUES('Lucas Emanuel','Poblete','LucasEmanuelPoblete@gmail.com',1155003912)
+INSERT INTO DOCENTES VALUES('Daiana Belen','Bustamante','DaianaBelenBustamante@gmail.com',1155127144)
+INSERT INTO DOCENTES VALUES('Matias Gabriel','Toro','MatiasGabrielToro@gmail.com',1155250376)
+INSERT INTO DOCENTES VALUES('Miguel Alejandro','Ortega','MiguelAlejandroOrtega@gmail.com',1155373608)
+INSERT INTO DOCENTES VALUES('Juan Martin','Venegas','JuanMartinVenegas@gmail.com',1155496840)
+INSERT INTO DOCENTES VALUES('Lucas Nahuel','Guerrero','LucasNahuelGuerrero@gmail.com',1155620072)
+INSERT INTO DOCENTES VALUES('Franco David','Mendoza','FrancoDavidMendoza@gmail.com',1155743304)
+INSERT INTO DOCENTES VALUES('Yamila Soledad','FarÌas','YamilaSoledadFarÌas@gmail.com',1155866536)
+INSERT INTO DOCENTES VALUES('Matias Alejandro','San MartÌn','MatiasAlejandroSanMartÌn@gmail.com',1155989768)
+
+--ALUMNOS
+
+INSERT INTO alumnos (nombre, apellido, genero, id_tipo_doc, num_doc, calle, numero, id_situac_habit, id_tipo_trab, id_estado_civil, trabaja, fecha_nac, id_barrio, telefono , email)
+VALUES('Lucio', 'Alfonso','NS/NC', 1, 30000,'avenida siempre viva', 123, 1, 1, 1, 1, '10/10/1990', 1,  3512, 'lucio@utn.edu.ar')
+
+INSERT INTO alumnos (nombre, apellido, genero, id_tipo_doc, num_doc, calle, numero, id_situac_habit, id_tipo_trab, id_estado_civil, trabaja, fecha_nac, id_barrio, telefono , email)
+VALUES('Gaston', 'Sosa','NS/NC', 1, 30001,'avenida siempre viva', 1234, 1, 1, 1, 1, '10/10/1996', 1,  3512, 'gaston@utn.edu.ar')
+
+INSERT INTO alumnos (nombre, apellido, genero, id_tipo_doc, num_doc, calle, numero, id_situac_habit, id_tipo_trab, id_estado_civil, trabaja, fecha_nac, id_barrio, telefono , email)
+VALUES('Ciro', 'Gianpiari','NS/NC', 1, 30003,'avenida siempre viva', 1235, 1, 1, 1, 1, '10/10/1994', 1,  3512, 'ciro@utn.edu.ar')
+
+INSERT INTO alumnos (nombre, apellido, genero, id_tipo_doc, num_doc, calle, numero, id_situac_habit, id_tipo_trab, id_estado_civil, trabaja, fecha_nac, id_barrio, telefono , email)
+VALUES('Ciro', 'Gianpiari','NS/NC', 1, 30002,'avenida siempre viva', 1236, 1, 1, 1, 1, '10/10/1991', 1,  3512, 'ciro@utn.edu.ar')
+
+INSERT INTO alumnos (nombre, apellido, genero, id_tipo_doc, num_doc, calle, numero, id_situac_habit, id_tipo_trab, id_estado_civil, trabaja, fecha_nac, id_barrio, telefono , email)
+VALUES('Javier', 'Yonose','NS/NC', 1, 30002,'avenida siempre viva', 1237, 1, 1, 1, 1, '10/10/1992', 1,  3512, 'javier@utn.edu.ar')
+
+--ALUMNOSxMATERIA
+INSERT INTO ALUMNOSxMATERIA (legajo, id_materia, id_condicion, anio_cursado) VALUES (1, 1, 1, 2021)
+
+--ALUMNOSxCARRERA
+INSERT INTO ALUMNOSxCARRERA (id_carrera, legajo) VALUES (1, 1)
+
+--ALUMNOSxCURSO
+INSERT INTO ALUMNOSxCURSO(legajo, id_curso) VALUES (1, 1)
+
+--MATERIASxCARRERA
+INSERT INTO MATERIASxCARRERA(id_carrera, id_materia) VALUES (1, 1)
+
+--EXAMENES
+INSERT INTO EXAMENES(id_tipo_examen, fecha, id_turno, id_materia) VALUES (1, '20211023', 1, 1)
+
+--MATERIASxCURSO
+INSERT INTO MATERIASxCURSO (id_materia, id_curso) values (1,1)
+
+--DOCENTExTURNO
+INSERT INTO DOCENTExTURNO (id_docente, id_turno, id_cargo) values(1,1,1)
+
+--DOCENTESxMATERIA
+INSERT INTO DOCENTESxMATERIA(id_docente, id_materia_curso) values (1,1)
