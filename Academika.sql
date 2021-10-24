@@ -54,7 +54,7 @@ CONSTRAINT pk_tipos_doc PRIMARY KEY (id_tipo_doc),
 )
 CREATE TABLE TIPOS_TRABAJO (
 id_tipo_trab int IDENTITY (1,1),
-ipo_trabajo varchar (50) not null,
+tipo_trabajo varchar (50) not null,
 CONSTRAINT pk_tipos_trab PRIMARY KEY (id_tipo_trab),
 )
 CREATE TABLE ALUMNOS (
@@ -138,7 +138,8 @@ CONSTRAINT fk_condicion_alumnos_x_materia FOREIGN KEY (id_condicion) REFERENCES 
 CREATE TABLE ALUMNOSxCARRERA (
 id_carrera_alumno int IDENTITY(1,1),
 legajo int,
-id_carrera int
+id_carrera int,
+anio_inscripcion int
 
 CONSTRAINT pk_carrera_alumno PRIMARY KEY (id_carrera_alumno),
 CONSTRAINT fk_legajo_alumnos_x_carrera FOREIGN KEY (legajo) REFERENCES ALUMNOS (legajo),
@@ -160,13 +161,15 @@ id_examen int IDENTITY(1,1),
 id_tipo_examen int,
 fecha datetime,
 id_turno int,
-id_materia int
+id_materia int,
+legajo int,
+nota int,
 
 CONSTRAINT pk_examen PRIMARY KEY (id_examen),
+CONSTRAINT fk_alumnos_examenes FOREIGN KEY (legajo) REFERENCES ALUMNOS (legajo),
+CONSTRAINT fk_materias_examenes FOREIGN KEY (id_materia) REFERENCES MATERIAS (id_materia),
 CONSTRAINT fk_tipo_examen_examenes FOREIGN KEY (id_tipo_examen) REFERENCES TIPOS_EXAMEN (id_tipo_examen),
-CONSTRAINT fk_turno_examenes FOREIGN KEY (id_turno) REFERENCES TURNOS_EXAMEN (id_turno),
-CONSTRAINT fk_materia_examentes FOREIGN KEY (id_materia) REFERENCES MATERIAS (id_materia)
-
+CONSTRAINT fk_turno_examenes FOREIGN KEY (id_turno) REFERENCES TURNOS_EXAMEN (id_turno)
 )
 
 CREATE TABLE MATERIASxCURSO(
@@ -196,7 +199,7 @@ CREATE TABLE MATERIASxCARRERA (
 	id_carrera int, 
 	id_materia int, 
 	CONSTRAINT pk_id_materias_carrera PRIMARY KEY (id_materias_carrera),
-	CONSTRAINT fk_id_carrera FOREIGN KEY (id_materias_carrera) REFERENCES carreras (id_carrera),
+	CONSTRAINT fk_id_carrera FOREIGN KEY (id_carrera) REFERENCES carreras (id_carrera),
 	CONSTRAINT fk_id_materia FOREIGN KEY (id_materia) REFERENCES materias (id_materia)
 )
 
@@ -211,7 +214,7 @@ CREATE TABLE DOCENTExTURNO (
 	CONSTRAINT fk_cargo_docente_turno FOREIGN KEY (id_cargo) REFERENCES CARGOS (id_cargo)
 )
 
-
+GO
 --==================================================================
 --INSERTS:
 
@@ -600,7 +603,7 @@ INSERT INTO ALUMNOSxCURSO(legajo, id_curso) VALUES (1, 1)
 INSERT INTO MATERIASxCARRERA(id_carrera, id_materia) VALUES (1, 1)
 
 --EXAMENES
-INSERT INTO EXAMENES(id_tipo_examen, fecha, id_turno, id_materia) VALUES (1, '20211023', 1, 1)
+INSERT INTO EXAMENES(id_tipo_examen, fecha, id_turno, id_materia, legajo, nota) VALUES (1, '20211023', 1, 1, 1, 10)
 
 --MATERIASxCURSO
 INSERT INTO MATERIASxCURSO (id_materia, id_curso) values (1,1)
@@ -611,4 +614,219 @@ INSERT INTO DOCENTExTURNO (id_docente, id_turno, id_cargo) values(1,1,1)
 --DOCENTESxMATERIA
 INSERT INTO DOCENTESxMATERIA(id_docente, id_materia_curso) values (1,1)
 
--- SCRIPT FUNCIONANDO --
+GO
+
+/* SECTION VIEWS */
+
+/* Vista con datos de utilidad de alumnos que están inscriptos a una carrera y sus respectivas materias-cursos */
+CREATE VIEW vw_condiciones_alumnos
+AS
+	SELECT a.legajo Legajo, a.nombre + ' ' + a.apellido Alumno, m.materia Materia, ca.carrera Carrera, c.curso Curso, am.anio_cursado Anio, co.condicion Condicion 
+	FROM ALUMNOSxMATERIA am
+	INNER JOIN ALUMNOSxCARRERA ac ON ac.legajo = am.legajo 
+	INNER JOIN ALUMNOSxCURSO acu ON acu.legajo = am.legajo 
+	INNER JOIN MATERIASxCURSO mc ON am.id_materia = mc.id_materia AND acu.legajo = am.legajo AND acu.id_curso = mc.id_curso
+	INNER JOIN MATERIASxCARRERA mca ON am.id_materia = mca.id_materia AND ac.id_carrera = mca.id_carrera
+	INNER JOIN ALUMNOS a ON a.legajo = am.legajo AND a.legajo = ac.legajo
+	INNER JOIN MATERIAS m ON m.id_materia = am.id_materia
+	INNER JOIN CURSOS c ON mc.id_curso = c.id_curso
+	INNER JOIN CARRERAS ca ON ca.id_carrera = ac.id_carrera AND ca.id_carrera = mca.id_carrera 
+	INNER JOIN CONDICIONES co ON co.id_condicion = am.id_condicion
+
+GO
+
+
+/* SECTION STORES PROCEDURES */
+
+/*
+	Cantidad de alumnos regulares, libres, por materia, curso, carrera, año de cursado.
+
+	Ejemplos de ejecución:
+		DECLARE @cantidadOut INT
+		EXEC sp_condiciones_alumnos 'Libre', @cantidad = @cantidadOut OUTPUT -- > Vemos el detalle los alumnos en condición de libres y la cantidad si queremos ver la salida, sino no especificamos nada 
+		SELECT @cantidadOut 
+		sp_condiciones_alumnos 'Regular', 'Mate' --> Vemos los alumnos regulares de todas las matemáticas
+		sp_condiciones_alumnos 'Regular', 'Mate', 'Prog'  --> Sólo libres de matemáticas de la Tec en Prog (escrito así nomás para ver el uso del like)
+		sp_condiciones_alumnos 'Regular', 'Mate', 'Prog', 2021 --> idem anterior pero del curso 1w1
+		sp_condiciones_alumnos 'Regular', NULL, NULL, NULL, 2021 --> solo regulares del 2021 .. Y así se puede seguir jugando con los parámetros filtrando en función de lo deseado.
+*/
+CREATE PROCEDURE SP_CONDICIONES_ALUMNOS
+	@condicion varchar(50) = NULL,
+	@materia varchar(50) = NULL,
+	@carrera VARCHAR(50) = NULL,
+	@curso VARCHAR (6) = NULL,
+	@aniocursado  int = NULL,
+	@cantidad int = NULL OUTPUT
+	AS
+		SELECT * INTO #tmp
+		FROM dbo.vw_condiciones_alumnos -- Acá se usa la vista vw_condiciones_alumnos para simplificar el SP
+		WHERE (@condicion IS NULL OR condicion = @condicion) AND -- Las condiciones son 3, pensado que sea valor exacto sacado de combo
+		(@materia IS NULL OR materia LIKE '%' + @materia + '%') AND -- Pensado para tomarlo de caja de texto, si escribo "mate" que me traiga resultados de todas las matemáticas
+		(@carrera IS NULL OR carrera LIKE  '%' + @carrera +'%' ) AND -- Idem anterior
+		(@curso IS NULL OR curso = @curso) AND -- Los cursos también vendrían de combo fijo. Son ejemplos como para mostrar dos formas, esto lo definiría un usuario
+		(@aniocursado IS NULL OR Anio = @aniocursado)
+
+		SELECT * FROM #tmp
+		SELECT @cantidad = count(*) FROM #tmp
+
+	DROP TABLE #tmp
+
+GO
+
+
+/*
+	Promedio de notas por alumno, materia, año, curso, etc.
+	Es muy parecido al anterior sólo que aquí no se usa la vista (para hacer algo distinto) y todas las condiciones se buscan por ID.
+
+	Ejemplo de ejecución:
+		declare @promedioOut numeric (5,2)
+		exec SP_PROMEDIO_NOTAS 2, 1, 2021, 1, 1 ,@promedio = @promedioOut output
+		select @promedioOut
+
+*/
+CREATE PROC SP_PROMEDIO_NOTAS 
+	@legajo int = NULL,
+	@idmateria int = NULL,
+	@aniocursado int = NULL,
+	@idcurso int = NULL,
+	@idcarrera int = NULL,
+	@promedio numeric(5,2) OUTPUT
+	AS 
+		SELECT @promedio = AVG(CAST(nota AS NUMERIC(5,2))) 
+		FROM EXAMENES e 
+			INNER JOIN ALUMNOSxMATERIA am ON e.legajo= am.legajo AND e.id_materia = am.id_materia
+			INNER JOIN ALUMNOSxCURSO ac ON ac.legajo = am.legajo 
+			INNER JOIN MATERIASxCURSO mc ON mc.id_curso = ac.id_curso AND am.id_materia = mc.id_materia
+			INNER JOIN MATERIASxCARRERA mca ON mca.id_materia = e.id_materia
+		WHERE (@legajo IS NULL OR am.legajo = @legajo) AND
+			(@idmateria IS NULL OR am.id_materia = @idmateria) AND
+			(@idcarrera IS NULL OR mca.id_carrera = @idcarrera) AND
+			(@idcurso IS NULL OR mc.id_curso = @idcurso) AND
+			(@aniocursado IS NULL OR am.anio_cursado = @aniocursado)
+
+GO
+
+
+/*
+	Cantidades de alumnos (promedio de notas, cantidad de materias regulares y aprobadas) por edades, 
+	estado civil, situación habitacional y laboral, etc.
+
+	Ejemplo de ejecución:
+		EXEC SP_ESTADISTICAS_ALUMNOS 'Edad'
+*/
+CREATE PROC SP_ESTADISTICAS_ALUMNOS
+	@groupElegido VARCHAR(50) = 'Edad' -- Sale de combo fijo
+	AS 
+	BEGIN
+		DECLARE @groupByGenerico NVARCHAR(150) 
+		DECLARE @groupByEdad NVARCHAR(150) = N'FLOOR(DATEDIFF(day, a.fecha_nac, GETDATE())/365.25)'
+		DECLARE @groupByEstadoCivil VARCHAR(50) = 'ec.estado_civil'
+		DECLARE @groupBySitHabit VARCHAR(50) = 'sh.situac_habit'
+		DECLARE @groupBySitLabo VARCHAR(50) = 'tt.tipo_trabajo'
+
+		SET @groupByGenerico = CASE @groupElegido WHEN 'Edad' THEN @groupByEdad
+												  WHEN 'Estado Civil' THEN @groupByEstadoCivil
+												  WHEN 'Situación Habitacional' THEN @groupBySitHabit 
+												  WHEN 'Situación Laboral' THEN @groupBySitLabo
+		END
+
+		DECLARE @SQL NVARCHAR(MAX)  = 
+		'SELECT '+ @groupByGenerico + ' AS ''' + @groupElegido + '''' + ',  co.condicion Condicion, AVG(e.nota) Promedio, count(*) Cantidad FROM
+		ALUMNOS a
+		INNER JOIN EXAMENES e ON e.legajo = a.legajo AND e.id_tipo_examen = 4
+		INNER JOIN ALUMNOSxMATERIA am ON am.legajo = e.legajo AND e.id_materia  = am.id_materia
+		INNER JOIN MATERIAS m ON m.id_materia = am.id_materia AND e.id_materia = m.id_materia
+		INNER JOIN CONDICIONES co ON co.id_condicion = am.id_condicion
+		LEFT JOIN SITUACIONES_HABIT sh ON sh.id_situac_habit = a.id_situac_habit
+		LEFT JOIN ESTADOS_CIVIL ec ON ec.id_estado_civil = a.id_estado_civil
+		LEFT JOIN TIPOS_TRABAJO tt ON tt.id_tipo_trab = a.id_tipo_trab
+		GROUP BY ' + @groupByGenerico + ' , co.condicion'
+
+		exec sp_executesql @SQL
+
+		END
+GO
+
+/*
+	Alumnos que no han rendido (o no han aprobado) ninguna materia en los últimos años.
+
+	Ejemplo de ejecución:
+		EXEC SP_ALUMNOS_SIN_APROBADAS
+*/
+CREATE PROC SP_ALUMNOS_SIN_APROBADAS
+	AS
+	BEGIN
+		SELECT a.Legajo, a.Alumno, a.Carrera, a.Anio,
+		CASE WHEN e.nota IS NULL THEN 'Alumno sin registros en finales.'
+				WHEN e.nota < 4 THEN 'Alumno sin aprobar finales en los últimos 5 años.'
+		END AS 'Comentario'
+		FROM dbo.vw_condiciones_alumnos a
+		LEFT JOIN EXAMENES e ON e.legajo = a.legajo AND id_tipo_examen = 4
+		WHERE (e.id_examen IS NULL)  OR (YEAR(e.fecha) > YEAR(GETDATE()) - 5 AND e.nota < 4)
+		END
+GO
+
+
+/*
+	Alumnos que no han cursado materias en el último año.
+
+	Ejemplo de ejecución:
+		EXEC SP_ALUMNOS_SIN_CURSADA
+*/
+CREATE PROC SP_ALUMNOS_SIN_CURSADA
+	AS
+	BEGIN
+		SELECT a.legajo Legajo,  a.nombre + ' ' + a.apellido Alumno, c.carrera Carrera FROM ALUMNOS a
+		INNER JOIN ALUMNOSxCARRERA ac ON ac.legajo = a.legajo
+		INNER JOIN CARRERAS c ON c.id_carrera = ac.id_carrera
+		WHERE a.legajo NOT IN (SELECT legajo FROM ALUMNOSxMATERIA WHERE anio_cursado = YEAR(GETDATE()) AND id_condicion IN (1,2))
+	END
+GO
+
+
+/* SECTION TRIGGERS */
+
+/* 
+	Trigger que al insertar un registro en exámenes valida que el alumno se haya inscripto en la materia en los 
+	últimos 5 años y no esté en condición de libre.
+
+	Si se quiere modificar algún registro del examen, posterior a la inscripción se hace la misma validación 
+	para no dar posbilidad de dejar datos inconsistentes.
+
+	Ejemplos de uso:
+		INSERT INTO EXAMENES VALUES (1, '2021-10-01', 1, 1, 5, NULL) -- El legajo 5 no está inscripto en la materia ID = 1, esto da error y borra el registro insertado
+		UPDATE EXAMENES SET nota = 5 WHERE id_examen = 7 -- No afecta, no se tocan los campos clave. Se cambia la nota con éxito
+
+*/
+CREATE TRIGGER TRG_VALIDA_EXAMEN
+ON EXAMENES
+FOR INSERT, UPDATE
+AS
+	BEGIN
+
+	DECLARE @legajo int DECLARE @legajoOld int
+	DECLARE @materia int DECLARE @materiaOld int
+	DECLARE @id_examen int
+
+	SELECT @legajo = legajo, @materia = id_materia, @id_examen = id_examen FROM inserted
+
+	SELECT @legajoOld = legajo, @materiaOld = id_materia, @id_examen = id_examen FROM deleted
+
+	IF(EXISTS (SELECT legajo FROM ALUMNOSxMATERIA WHERE legajo = @legajo AND id_materia = @materia AND id_condicion in (1,2) AND anio_cursado > YEAR(GETDATE()) - 5))
+		IF (EXISTS (SELECT * FROM DELETED))
+			PRINT ('Modificación en datos de examen realizada con éxito.')
+		ELSE
+			PRINT ('Inscripción realizada con éxito.')
+	ELSE
+		IF (EXISTS (SELECT * FROM DELETED))
+		BEGIN
+			UPDATE EXAMENES SET id_materia = @materia, legajo = @legajoOld WHERE id_examen = @id_examen
+			RAISERROR('Hubo un error al modificar los datos del examen. Revise el estado del alumno y vuelva a intentarlo.', 16,1)
+		END
+		ELSE
+		BEGIN
+			DELETE FROM EXAMENES WHERE id_examen = @id_examen
+			RAISERROR('Hubo un error al registrar el examen, verifique que el alumno esté en condiciones de poder inscribirse.', 16, 1)
+		END
+	END
+GO
